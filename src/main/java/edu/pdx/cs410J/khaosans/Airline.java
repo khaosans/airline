@@ -4,6 +4,7 @@ import edu.pdx.cs410J.AbstractAirline;
 import edu.pdx.cs410J.AbstractFlight;
 
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -12,7 +13,11 @@ import java.util.List;
 public class Airline extends AbstractAirline {
 
     String name;
-    List<AbstractFlight> flights;
+    List<AbstractFlight> flights = new LinkedList<>();
+
+    public Airline(String[]  args){
+        this.name = args[0];
+    }
 
     @Override
     public String getName() {

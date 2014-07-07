@@ -6,12 +6,20 @@ import edu.pdx.cs410J.AbstractFlight;
  * Created by sk on 7/6/14.
  */
 public class Flight extends AbstractFlight {
+    private int identificationNumber;
+    private String source;
+    private String departureTime;
+    private String destination;
+    private String arrivalTime;
 
-    String source;
-    String destination;
-    String departure;
-    String arrival;
-    int identificationNumber;
+
+    public Flight(String [] args){
+        this.identificationNumber = Integer.parseInt(args[1]);
+        this.source = args[2];
+        this.departureTime = args[3]+" "+args[4];
+        this.destination = args[5];
+        this.arrivalTime = args[6]+" "+args[7];
+    }
 
     @Override
     public int getNumber() {
@@ -25,7 +33,7 @@ public class Flight extends AbstractFlight {
 
     @Override
     public String getDepartureString() {
-        return null;
+        return departureTime;
     }
 
     @Override
@@ -35,6 +43,6 @@ public class Flight extends AbstractFlight {
 
     @Override
     public String getArrivalString() {
-        return null;
+        return arrivalTime;
     }
 }
