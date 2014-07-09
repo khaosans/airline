@@ -15,7 +15,7 @@ public class Project1 {
     private static Flight flight;
 
     /**
-     *
+     * Main method used to run everything
      * @param args are the command line arguments
      */
     public static void main(String[] args) {
@@ -60,9 +60,10 @@ public class Project1 {
     }
 
     /**
-     *
-     * @param args
-     * @return
+     * Method is used to parse the command line arguments and sets the flags from the every option.
+     * It also removes the options from the command line arguments.
+     * @param args is the command line arguments
+     * @return an array of arguments minus all the options passed in.
      */
     public static String[] parseCL(String[] args) {
         int indexNumber = 0;
@@ -82,8 +83,8 @@ public class Project1 {
     }
 
     /**
-     *
-     * @param arg
+     * Method used to validate the format of the input date
+     * @param arg is a string of the date as follows MM/DD/YYYY
      */
     public static void dateFormatValidator(String arg) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/DD/YYYY");
@@ -99,7 +100,7 @@ public class Project1 {
     }
 
     /**
-     *
+     * Method used to validate the individual numbers in the date.
      * @param date a string that that contains the date month/day/year
      * @return a boolean value of true the date numbers are valid
      */
@@ -124,8 +125,8 @@ public class Project1 {
     }
 
     /**
-     *
-     * @param arg
+     * Method used to validate the time formatt such that it is always HH:mm
+     * @param arg a string of time as above.
      */
     public static void timeFormatValidator(String arg) {
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
@@ -144,9 +145,9 @@ public class Project1 {
     }
 
     /**
-     *
-     * @param time
-     * @return
+     * Method used to validate that the integer values of the time are proper.
+     * @param time a string of the time that is in the format of HH:mm.
+     * @return a boolean value signalling that the values are within specification.
      */
     public static boolean isTimeValid(String time) {
         String[] values = time.split(":");
@@ -166,9 +167,10 @@ public class Project1 {
     }
 
     /**
-     *
-     * @param arg
-     * @return
+     * Method that is used to parse a string into an integer, that throws exception when the value is
+     * not an integer.
+     * @param arg is a string value that may or maynot be a number.
+     * @return the integer converted from the string args.
      */
     public static int intParser(String arg) {
         try {
@@ -181,8 +183,9 @@ public class Project1 {
     }
 
     /**
-     *
-     * @param arg
+     * Method used to validate that a string only contains three letters and is a letter from the alphabet.
+     * If the string is not a valid 3 letters, it will signal an error and exit the program.
+     * @param arg a string value.
      */
     public static void airportValidator(String arg) {
         if (!isAlpha(arg) || arg.length() != 3 || arg.length() != 3) {
@@ -192,9 +195,9 @@ public class Project1 {
     }
 
     /**
-     *
+     * Method using a regular expression to see whether the input only contains letters from the alphabet.
      * @param word
-     * @return
+     * @return a boolean value that signals whether the input is only letters.  
      */
     public static boolean isAlpha(String word) {
         return word.matches("[a-zA-Z]+");
