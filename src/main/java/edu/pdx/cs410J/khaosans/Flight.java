@@ -14,8 +14,8 @@ public class Flight extends AbstractFlight {
 
 
     /**
-     *
-     * @param args
+     * Constructor for the flight
+     * @param args are the command line arguments
      */
     public Flight(String [] args){
         this.identificationNumber = Integer.parseInt(args[1]);
@@ -26,8 +26,8 @@ public class Flight extends AbstractFlight {
     }
 
     /**
-     *
-     * @return
+     * Getter for the identification number
+     * @return the identification number
      */
     @Override
     public int getNumber() {
@@ -35,8 +35,8 @@ public class Flight extends AbstractFlight {
     }
 
     /**
-     *
-     * @return
+     * Getter for the source airport
+     * @return a string of the source airport
      */
     @Override
     public String getSource() {
@@ -44,8 +44,8 @@ public class Flight extends AbstractFlight {
     }
 
     /**
-     *
-     * @return
+     * Getter for the departure string
+     * @return the get departure time string
      */
     @Override
     public String getDepartureString() {
@@ -53,8 +53,8 @@ public class Flight extends AbstractFlight {
     }
 
     /**
-     *
-     * @return
+     * Getter for the destination string
+     * @return the string destination
      */
     @Override
     public String getDestination() {
@@ -62,8 +62,8 @@ public class Flight extends AbstractFlight {
     }
 
     /**
-     *
-     * @return
+     * Getter for the arrival string
+     * @return the arrival time
      */
     @Override
     public String getArrivalString() {
