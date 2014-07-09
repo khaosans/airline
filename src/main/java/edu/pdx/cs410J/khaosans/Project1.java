@@ -14,6 +14,10 @@ public class Project1 {
     private static Boolean printFlag = false;
     private static Flight flight;
 
+    /**
+     *
+     * @param args are the command line arguments
+     */
     public static void main(String[] args) {
         Class c = AbstractAirline.class;  // Refer to one of Dave's classes so that we can be sure it is on the classpath
 
@@ -55,6 +59,11 @@ public class Project1 {
         System.exit(1);
     }
 
+    /**
+     *
+     * @param args
+     * @return
+     */
     public static String[] parseCL(String[] args) {
         int indexNumber = 0;
         String[] argsToReturn = new String[8];
@@ -72,6 +81,10 @@ public class Project1 {
         return argsToReturn;
     }
 
+    /**
+     *
+     * @param arg
+     */
     public static void dateFormatValidator(String arg) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/DD/YYYY");
         try {
@@ -85,6 +98,11 @@ public class Project1 {
         }
     }
 
+    /**
+     *
+     * @param date a string that that contains the date month/day/year
+     * @return a boolean value of true the date numbers are valid
+     */
     public static boolean isDateValid(String date) {
         String[] values = date.split("/");
         int mm = Integer.parseInt(values[0]);
@@ -105,6 +123,10 @@ public class Project1 {
         }
     }
 
+    /**
+     *
+     * @param arg
+     */
     public static void timeFormatValidator(String arg) {
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
         try {
@@ -121,6 +143,11 @@ public class Project1 {
         }
     }
 
+    /**
+     *
+     * @param time
+     * @return
+     */
     public static boolean isTimeValid(String time) {
         String[] values = time.split(":");
         int hh = Integer.parseInt(values[0]);
@@ -138,6 +165,11 @@ public class Project1 {
         }
     }
 
+    /**
+     *
+     * @param arg
+     * @return
+     */
     public static int intParser(String arg) {
         try {
             return Integer.parseInt(arg);
@@ -148,6 +180,10 @@ public class Project1 {
         return 0;
     }
 
+    /**
+     *
+     * @param arg
+     */
     public static void airportValidator(String arg) {
         if (!isAlpha(arg) || arg.length() != 3 || arg.length() != 3) {
             System.err.println(arg + " invalid airport");
@@ -155,6 +191,11 @@ public class Project1 {
         }
     }
 
+    /**
+     *
+     * @param word
+     * @return
+     */
     public static boolean isAlpha(String word) {
         return word.matches("[a-zA-Z]+");
     }

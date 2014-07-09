@@ -13,6 +13,10 @@ public class Flight extends AbstractFlight {
     private String arrivalTime;
 
 
+    /**
+     *
+     * @param args
+     */
     public Flight(String [] args){
         this.identificationNumber = Integer.parseInt(args[1]);
         this.source = args[2];
@@ -21,26 +25,46 @@ public class Flight extends AbstractFlight {
         this.arrivalTime = args[6]+" "+args[7];
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int getNumber() {
         return identificationNumber;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String getSource() {
         return source;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String getDepartureString() {
         return departureTime;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String getDestination() {
         return destination;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String getArrivalString() {
         return arrivalTime;
