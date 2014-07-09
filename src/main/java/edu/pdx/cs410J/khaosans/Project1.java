@@ -52,7 +52,18 @@ public class Project1 {
         }
 
         if (readmeFlag) {
-            System.out.println("Readme LIVES RIGHT HERE");
+            System.out.println("usage: java edu.pdx.cs410J.<login-id>.Project1 [options] <args>\n" +
+                    "args are (in this order):\n" +
+                    "name The name of the airline\n" +
+                    "flightNumber The flight number\n" +
+                    "src Three-letter code of departure airport\n" +
+                    "departTime Departure date and time (24-hour time)\n" +
+                    "dest Three-letter code of arrival airport\n" +
+                    "arriveTime Arrival date and time (24-hour time)\n" +
+                    "options are (options may appear in any order):\n" +
+                    "-print Prints a description of the new flight\n" +
+                    "-README Prints a README for this project and exits\n" +
+                    "Date and time should be in the format: mm/dd/yyyy hh:mm\n");
             //do some shit
         }
 
