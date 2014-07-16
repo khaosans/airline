@@ -67,6 +67,7 @@ public class Project2 {
 
         if (printFlag && flight != null) {
             System.out.println(flight.toString());
+            System.exit(1);
         }
 
         if (readmeFlag) {
@@ -89,6 +90,7 @@ public class Project2 {
                     "-print Prints a description of the new flight\n" +
                     "-README Prints a README for this project and exits\n" +
                     "Date and time should be in the format: mm/dd/yyyy hh:mm\n");
+            System.exit(1);
         }
 
         if(removedOptionsArguments.length>8){
