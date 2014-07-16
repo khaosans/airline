@@ -2,19 +2,23 @@ package edu.pdx.cs410J.khaosans;
 
 import edu.pdx.cs410J.AbstractAirline;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 
 /**
  * The main class for the CS410J airline Project
  */
 public class Project2 {
+    private static int numberOfOptions = 0;
     private static Boolean readmeFlag = false;
     private static Boolean printFlag = false;
-    private static Boolean testFileFlag = false;
+    private static Boolean textFileFlag = false;
     private static String fileName = null;
     private static Flight flight;
+    private static Airline airline;
 
     /**
      * Main method used to run everything
@@ -23,13 +27,6 @@ public class Project2 {
      */
     public static void main(String[] args) {
         Class c = AbstractAirline.class;  // Refer to one of Dave's classes so that we can be sure it is on the classpath
-        int i = 0;
-        for (String arg : args) {
-            System.out.println("[" + i + "]" + arg);
-            ++i;
-        }
-        System.out.println("-------------");
-
         if (args.length == 0) {
             System.err.println("Missing command line arguments");
             System.exit(1);
@@ -39,16 +36,14 @@ public class Project2 {
             System.exit(1);
         }
 
-        String[] removedOptionsArguments = parseCL(args);
+        String[] removedOptionsArguments = Arrays.copyOfRange(parseCL(args), 0, args.length - numberOfOptions);
 
-        int j = 0;
-        for (String arg : removedOptionsArguments) {
-            System.out.println("[" + j + "]" + arg);
-            ++j;
+        if (removedOptionsArguments.length > 8 || removedOptionsArguments.length < 8) {
+            System.err.println("Wrong number of arguments");
+            System.exit(1);
         }
 
-        if (args.length >= 7 ) {
-            //Validate here
+        if (removedOptionsArguments.length == 8) {
             intParser(removedOptionsArguments[1]);
             airportValidator(removedOptionsArguments[2]);
             dateFormatValidator(removedOptionsArguments[3]);
@@ -58,8 +53,20 @@ public class Project2 {
             timeFormatValidator(removedOptionsArguments[7]);
 
             flight = new Flight(removedOptionsArguments);
-            Airline airline = new Airline(removedOptionsArguments);
+            airline = new Airline(removedOptionsArguments[0]);
             airline.addFlight(flight);
+        }
+        if (textFileFlag) {
+            try {
+                if(new TextParser(fileName).isSameAirline(airline.getName())){
+                    new TextDumper(fileName).dump(airline);
+                }else{
+                    System.err.print("Not the same airline");
+                    System.exit(1);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         if (printFlag && flight != null) {
@@ -67,23 +74,23 @@ public class Project2 {
         }
 
         if (readmeFlag) {
-            System.out.println("usage: java edu.pdx.cs410J.<login-id>.Project1 [options] <args>\n" +
-                    "args are (in this order):\n" +
-                    "name The name of the airline\n" +
-                    "flightNumber The flight number\n" +
-                    "src Three-letter code of departure airport\n" +
-                    "departTime Departure date and time (24-hour time)\n" +
-                    "dest Three-letter code of arrival airport\n" +
-                    "arriveTime Arrival date and time (24-hour time)\n" +
-                    "options are (options may appear in any order):\n" +
-                    "-print Prints a description of the new flight\n" +
-                    "-README Prints a README for this project and exits\n" +
-                    "Date and time should be in the format: mm/dd/yyyy hh:mm\n");
-            //do some shit
+            System.out.println(
+                    "usage: java edu.pdx.cs410J.<login-id>.Project1 [options] <args>\n" +
+                            "args are (in this order):\n" +
+                            "name The name of the airline\n" +
+                            "flightNumber The flight number\n" +
+                            "src Three-letter code of departure airport\n" +
+                            "departTime Departure date and time (24-hour time)\n" +
+                            "dest Three-letter code of arrival airport\n" +
+                            "arriveTime Arrival date and time (24-hour time)\n" +
+                            "options are (options may appear in any order):\n" +
+                            "-print Prints a description of the new flight\n" +
+                            "-README Prints a README for this project and exits\n" +
+                            "Date and time should be in the format: mm/dd/yyyy hh:mm\n");
         }
-
         System.exit(1);
     }
+
 
     /**
      * Method is used to parse the command line arguments and sets the flags from the every option.
@@ -99,17 +106,19 @@ public class Project2 {
         for (int i = 0; i < args.length; ++i) {
             if (args[i].equals("-README")) {
                 readmeFlag = true;
+                ++numberOfOptions;
             } else if (args[i].equals("-print")) {
                 printFlag = true;
+                ++numberOfOptions;
             } else if (args[i].equals("-textFile")) {
-                testFileFlag = true;
+                textFileFlag = true;
                 fileName = args[i + 1];
+                numberOfOptions += 2;
                 ++i;
-            } else if(args[i].startsWith("-")){
+            } else if (args[i].startsWith("-")) {
                 System.err.print("Invalid argument");
                 System.exit(1);
-            }
-            else {
+            } else {
                 argsToReturn[indexNumber] = args[i];
                 ++indexNumber;
             }
