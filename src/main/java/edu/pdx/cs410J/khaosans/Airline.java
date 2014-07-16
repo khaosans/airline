@@ -57,11 +57,11 @@ public class Airline extends AbstractAirline {
     public String airlineDump() {
         String dump = "";
         for (AbstractFlight flight : flights) {
-            dump += name +" "+
-                    flight.getNumber() + " "+
-                    flight.getSource()+" "+
-                    flight.getDepartureString()+" "+
-                    flight.getDestination()+" "+
+            dump += name + " " +
+                    flight.getNumber() + " " +
+                    flight.getSource() + " " +
+                    flight.getDepartureString() + " " +
+                    flight.getDestination() + " " +
                     flight.getArrivalString();
         }
         return dump;

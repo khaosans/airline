@@ -15,18 +15,20 @@ public class Flight extends AbstractFlight {
 
     /**
      * Constructor for the flight
+     *
      * @param args are the command line arguments
      */
-    public Flight(String [] args){
+    public Flight(String[] args) {
         this.identificationNumber = Integer.parseInt(args[1]);
         this.source = args[2];
-        this.departureTime = args[3]+" "+args[4];
+        this.departureTime = args[3] + " " + args[4];
         this.destination = args[5];
-        this.arrivalTime = args[6]+" "+args[7];
+        this.arrivalTime = args[6] + " " + args[7];
     }
 
     /**
      * Getter for the identification number
+     *
      * @return the identification number
      */
     @Override
@@ -36,6 +38,7 @@ public class Flight extends AbstractFlight {
 
     /**
      * Getter for the source airport
+     *
      * @return a string of the source airport
      */
     @Override
@@ -45,6 +48,7 @@ public class Flight extends AbstractFlight {
 
     /**
      * Getter for the departure string
+     *
      * @return the get departure time string
      */
     @Override
@@ -54,6 +58,7 @@ public class Flight extends AbstractFlight {
 
     /**
      * Getter for the destination string
+     *
      * @return the string destination
      */
     @Override
@@ -63,6 +68,7 @@ public class Flight extends AbstractFlight {
 
     /**
      * Getter for the arrival string
+     *
      * @return the arrival time
      */
     @Override

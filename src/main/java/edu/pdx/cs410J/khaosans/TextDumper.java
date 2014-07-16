@@ -15,13 +15,18 @@ public class TextDumper implements edu.pdx.cs410J.AirlineDumper {
         this.fileName = fileName;
     }
 
+    /**
+     * Method dump is used write to file from the command line or add to file.
+     *
+     * @param abstractAirline the airline object that is used to dump the data from
+     */
     @Override
-    public void dump(AbstractAirline abstractAirline) throws IOException {
+    public void dump(AbstractAirline abstractAirline) {
         try {
             if (fileName == null) {
                 FileWriter fileWriter = new FileWriter(new File(fileName));
                 Airline newAirline = (Airline) abstractAirline;
-                fileWriter.write(newAirline.airlineDump()+"\n");
+                fileWriter.write(newAirline.airlineDump() + "\n");
                 fileWriter.close();
             } else {
                 PrintWriter printWriter = new PrintWriter(new BufferedWriter(new FileWriter(fileName, true)));

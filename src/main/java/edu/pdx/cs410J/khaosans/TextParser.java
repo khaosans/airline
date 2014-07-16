@@ -20,7 +20,9 @@ public class TextParser implements edu.pdx.cs410J.AirlineParser {
     String airlineName;
 
     /**
-     * @param fileName
+     * This method is the constructor used for validating if the file exist or not
+     *
+     * @param fileName the string of the file name
      */
     public TextParser(String fileName) {
         this.fileName = fileName;
@@ -35,8 +37,10 @@ public class TextParser implements edu.pdx.cs410J.AirlineParser {
     }
 
     /**
-     * @return
-     * @throws ParserException
+     * Method that is interface that must be implemented. Pretty much just calls the get airline method.
+     *
+     * @return an AbstractAirline that is the airline object
+     * @throws ParserException Exception that is thrown when it's unable to parse the file.
      */
     @Override
     public AbstractAirline parse() throws ParserException {
@@ -44,8 +48,11 @@ public class TextParser implements edu.pdx.cs410J.AirlineParser {
     }
 
     /**
-     * @return Boolean value signaling if the file contains the same airline
-     * @throws IOException
+     * Method used for validating the same airline and file airline.
+     *
+     * @param airlineName is the string name of the airline
+     * @return boolean value signaling whether the airline is the same as the file airline
+     * @throws IOException when there are issues with the input and output
      */
     public boolean isSameAirline(String airlineName) throws IOException {
         String toCheck = "";
@@ -69,11 +76,11 @@ public class TextParser implements edu.pdx.cs410J.AirlineParser {
     }
 
     /**
+     * Method used to convert an airline file directly into an airline.
      *
-     * @return
-     * @throws IOException
+     * @return Airline object that is used for adding flights to
      */
-    public Airline getAirlineFromFile()  {
+    public Airline getAirlineFromFile() {
         try {
             if (isSameAirline(airlineName)) {
                 airline = new Airline(airlineName);
@@ -95,6 +102,8 @@ public class TextParser implements edu.pdx.cs410J.AirlineParser {
     }
 
     /**
+     * Method used to validate the file input.  Pretty much the same as the main argument but less the options.
+     *
      * @param args
      */
     public void inputValidator(String[] args) {
@@ -175,7 +184,7 @@ public class TextParser implements edu.pdx.cs410J.AirlineParser {
     }
 
     /**
-     * Method used to validate the time formatt such that it is always HH:mm
+     * Method used to validate the time format such that it is always HH:mm
      *
      * @param arg a string of time as above.
      */
