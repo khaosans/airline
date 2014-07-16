@@ -15,93 +15,118 @@ import java.util.Date;
  * Created by sk on 7/15/14.
  */
 public class TextParser implements edu.pdx.cs410J.AirlineParser {
-    FileReader fileReader;
+    String fileName;
     Airline airline;
     String airlineName;
 
-    public static void main(String[] args) throws IOException {
-        TextParser fileToParse = new TextParser("testFile.txt");
-        System.out.println(fileToParse.isSameAirline());
-    }
-
+    /**
+     * @param fileName
+     */
     public TextParser(String fileName) {
+        this.fileName = fileName;
         try {
-            this.fileReader = new FileReader(fileName);
+            BufferedReader br = new BufferedReader(new FileReader(fileName));
+            br.close();
         } catch (FileNotFoundException e) {
-            System.err.print("file doesn't exist");
-            System.exit(1);
+            System.err.print("No file exists");
+        } catch (IOException e) {
+            System.err.print("File I/O error");
         }
     }
 
-
+    /**
+     * @return
+     * @throws ParserException
+     */
     @Override
     public AbstractAirline parse() throws ParserException {
-        return null;
+        return getAirlineFromFile();
     }
 
     /**
      * @return Boolean value signaling if the file contains the same airline
      * @throws IOException
      */
-    public boolean isSameAirline() throws IOException {
+    public boolean isSameAirline(String airlineName) throws IOException {
         String toCheck = "";
 
-        BufferedReader br = new BufferedReader(fileReader);
+        BufferedReader br = new BufferedReader(new FileReader(fileName));
         String line;
         while ((line = br.readLine()) != null) {
             String[] split = line.split(" ");
             toCheck += split[0] + " ";
         }
-        br.close();
         String[] toCompare = toCheck.split(" ");
 
-        String firstValue = toCompare[0];
 
         for (String value : toCompare) {
-            if (!firstValue.equals(value)) {
+            if (!airlineName.equals(value)) {
                 return false;
             }
         }
-        airlineName = firstValue;
+        br.close();
         return true;
     }
 
-    public Airline getAirlineFromFile() throws IOException {
-        if (isSameAirline()) {
-            airline = new Airline(airlineName);
-            BufferedReader br = new BufferedReader(fileReader);
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] split = line.split(" ");
-                inputValidator(split);
-                Flight flight = new Flight(split);
-                airline.addFlight(flight);
+    /**
+     *
+     * @return
+     * @throws IOException
+     */
+    public Airline getAirlineFromFile()  {
+        try {
+            if (isSameAirline(airlineName)) {
+                airline = new Airline(airlineName);
+                BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName));
+                String line;
+                while ((line = bufferedReader.readLine()) != null) {
+                    String[] args = line.split(" ");
+                    inputValidator(args);
+                    Flight flight = new Flight(args);
+                    airline.addFlight(flight);
+                }
+                bufferedReader.close();
             }
-            br.close();
-        }
-        return null;
-    }
-
-    public void inputValidator(String[] args) {
-        int i = 0;
-        for (String arg : args) {
-            System.out.println("[" + i + "]" + arg);
-            ++i;
-        }
-
-        if (args.length == 0) {
-            System.err.println("Missing command line arguments");
+        } catch (IOException e) {
+            System.err.print("File IO error");
             System.exit(1);
         }
+        return airline;
+    }
 
-        if (args.length >= 7) {
-            intParser(args[1]);
-            airportValidator(args[2]);
-            dateFormatValidator(args[3]);
-            timeFormatValidator(args[4]);
-            airportValidator(args[5]);
-            dateFormatValidator(args[6]);
-            timeFormatValidator(args[7]);
+    /**
+     * @param args
+     */
+    public void inputValidator(String[] args) {
+        try {
+            int i = 0;
+            for (String arg : args) {
+                System.out.println("[" + i + "]" + arg);
+                ++i;
+            }
+
+            if (args.length > 8) {
+                System.err.println("too many arguments");
+                System.exit(1);
+            }
+
+            if (args.length == 0) {
+                System.err.println("Missing command line arguments");
+                System.exit(1);
+            }
+
+            if (args.length >= 7) {
+                intParser(args[1]);
+                airportValidator(args[2]);
+                dateFormatValidator(args[3]);
+                timeFormatValidator(args[4]);
+                airportValidator(args[5]);
+                dateFormatValidator(args[6]);
+                timeFormatValidator(args[7]);
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.err.print("Invalid number of argument error");
+            System.exit(1);
         }
     }
 
