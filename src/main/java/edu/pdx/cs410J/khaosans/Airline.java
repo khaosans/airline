@@ -16,15 +16,17 @@ public class Airline extends AbstractAirline {
 
     /**
      * Constructor for the airline
+     *
      * @param args is the name of the airline.
      */
-    public Airline(String[]  args){
+    public Airline(String[] args) {
         this.name = args[0];
         flights = new LinkedList<>();
     }
 
     /**
      * Getter for the name field
+     *
      * @return a string of the name
      */
     @Override
@@ -34,6 +36,7 @@ public class Airline extends AbstractAirline {
 
     /**
      * Method used to add flights to the airline.
+     *
      * @param abstractFlight is the flight object
      */
     @Override
@@ -43,10 +46,20 @@ public class Airline extends AbstractAirline {
 
     /**
      * Method used to get all the flights.
+     *
      * @return flight list as a list.
      */
     @Override
     public Collection getFlights() {
         return flights;
+    }
+
+    public String airlineDump() {
+        String toReturn = "";
+        toReturn += name + "\n";
+        for (AbstractFlight flight : flights) {
+            toReturn += flight.toString() + "\n";
+        }
+        return toReturn;
     }
 }
