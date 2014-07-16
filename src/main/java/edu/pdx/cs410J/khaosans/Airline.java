@@ -17,10 +17,10 @@ public class Airline extends AbstractAirline {
     /**
      * Constructor for the airline
      *
-     * @param args is the name of the airline.
+     * @param airlineName is the name of the airline.
      */
-    public Airline(String[] args) {
-        this.name = args[0];
+    public Airline(String airlineName) {
+        this.name = airlineName;
         flights = new LinkedList<>();
     }
 
@@ -55,11 +55,15 @@ public class Airline extends AbstractAirline {
     }
 
     public String airlineDump() {
-        String toReturn = "";
-        toReturn += name + "\n";
+        String dump = "";
         for (AbstractFlight flight : flights) {
-            toReturn += flight.toString() + "\n";
+            dump += name +" "+
+                    flight.getNumber() + " "+
+                    flight.getSource()+" "+
+                    flight.getDepartureString()+" "+
+                    flight.getDestination()+" "+
+                    flight.getArrivalString();
         }
-        return toReturn;
+        return dump;
     }
 }

@@ -43,7 +43,7 @@ public class Project1 {
             timeFormatValidator(removedOptionsArguments[7]);
 
             flight = new Flight(removedOptionsArguments);
-            Airline airline = new Airline(removedOptionsArguments);
+            Airline airline = new Airline(removedOptionsArguments[0]);
             airline.addFlight(flight);
         }
 

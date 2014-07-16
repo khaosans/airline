@@ -1,128 +1,108 @@
 package edu.pdx.cs410J.khaosans;
 
 import edu.pdx.cs410J.AbstractAirline;
+import edu.pdx.cs410J.ParserException;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * The main class for the CS410J airline Project
+ * Created by sk on 7/15/14.
  */
-public class Project2 {
-    private static Boolean readmeFlag = false;
-    private static Boolean printFlag = false;
-    private static Boolean testFileFlag = false;
-    private static String fileName = null;
-    private static Flight flight;
+public class TextParser implements edu.pdx.cs410J.AirlineParser {
+    FileReader fileReader;
+    Airline airline;
+    String airlineName;
+
+    public static void main(String[] args) throws IOException {
+        TextParser fileToParse = new TextParser("testFile.txt");
+        System.out.println(fileToParse.isSameAirline());
+    }
+
+    public TextParser(String fileName) {
+        try {
+            this.fileReader = new FileReader(fileName);
+        } catch (FileNotFoundException e) {
+            System.err.print("file doesn't exist");
+            System.exit(1);
+        }
+    }
+
+
+    @Override
+    public AbstractAirline parse() throws ParserException {
+        return null;
+    }
 
     /**
-     * Main method used to run everything
-     *
-     * @param args are the command line arguments
+     * @return Boolean value signaling if the file contains the same airline
+     * @throws IOException
      */
-    public static void main(String[] args) {
-        Class c = AbstractAirline.class;  // Refer to one of Dave's classes so that we can be sure it is on the classpath
+    public boolean isSameAirline() throws IOException {
+        String toCheck = "";
+
+        BufferedReader br = new BufferedReader(fileReader);
+        String line;
+        while ((line = br.readLine()) != null) {
+            String[] split = line.split(" ");
+            toCheck += split[0] + " ";
+        }
+        br.close();
+        String[] toCompare = toCheck.split(" ");
+
+        String firstValue = toCompare[0];
+
+        for (String value : toCompare) {
+            if (!firstValue.equals(value)) {
+                return false;
+            }
+        }
+        airlineName = firstValue;
+        return true;
+    }
+
+    public Airline getAirlineFromFile() throws IOException {
+        if (isSameAirline()) {
+            airline = new Airline(airlineName);
+            BufferedReader br = new BufferedReader(fileReader);
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] split = line.split(" ");
+                inputValidator(split);
+                Flight flight = new Flight(split);
+                airline.addFlight(flight);
+            }
+            br.close();
+        }
+        return null;
+    }
+
+    public void inputValidator(String[] args) {
         int i = 0;
         for (String arg : args) {
             System.out.println("[" + i + "]" + arg);
             ++i;
         }
-        System.out.println("-------------");
 
         if (args.length == 0) {
             System.err.println("Missing command line arguments");
             System.exit(1);
         }
-        if (args.length == 1 && args[0].equals("-print")) {
-            System.err.println("Nothing to print");
-            System.exit(1);
+
+        if (args.length >= 7) {
+            intParser(args[1]);
+            airportValidator(args[2]);
+            dateFormatValidator(args[3]);
+            timeFormatValidator(args[4]);
+            airportValidator(args[5]);
+            dateFormatValidator(args[6]);
+            timeFormatValidator(args[7]);
         }
-
-        String[] removedOptionsArguments = parseCL(args);
-
-        int j = 0;
-        for (String arg : removedOptionsArguments) {
-            System.out.println("[" + j + "]" + arg);
-            ++j;
-        }
-
-        if (args.length >= 7 ) {
-            //Validate here
-            intParser(removedOptionsArguments[1]);
-            airportValidator(removedOptionsArguments[2]);
-            dateFormatValidator(removedOptionsArguments[3]);
-            timeFormatValidator(removedOptionsArguments[4]);
-            airportValidator(removedOptionsArguments[5]);
-            dateFormatValidator(removedOptionsArguments[6]);
-            timeFormatValidator(removedOptionsArguments[7]);
-
-            flight = new Flight(removedOptionsArguments);
-            Airline airline = new Airline(removedOptionsArguments[0]);
-            airline.addFlight(flight);
-            try {
-                new TextDumper().dump(airline);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (printFlag && flight != null) {
-            System.out.println(flight.toString());
-        }
-
-        if (readmeFlag) {
-            System.out.println("usage: java edu.pdx.cs410J.<login-id>.Project1 [options] <args>\n" +
-                    "args are (in this order):\n" +
-                    "name The name of the airline\n" +
-                    "flightNumber The flight number\n" +
-                    "src Three-letter code of departure airport\n" +
-                    "departTime Departure date and time (24-hour time)\n" +
-                    "dest Three-letter code of arrival airport\n" +
-                    "arriveTime Arrival date and time (24-hour time)\n" +
-                    "options are (options may appear in any order):\n" +
-                    "-print Prints a description of the new flight\n" +
-                    "-README Prints a README for this project and exits\n" +
-                    "Date and time should be in the format: mm/dd/yyyy hh:mm\n");
-            //do some shit
-        }
-
-        System.exit(1);
-    }
-
-
-    /**
-     * Method is used to parse the command line arguments and sets the flags from the every option.
-     * It also removes the options from the command line arguments.
-     *
-     * @param args is the command line arguments
-     * @return an array of arguments minus all the options passed in.
-     */
-    public static String[] parseCL(String[] args) {
-        String[] argsToReturn = new String[args.length];
-        int indexNumber = 0;
-
-        for (int i = 0; i < args.length; ++i) {
-            if (args[i].equals("-README")) {
-                readmeFlag = true;
-            } else if (args[i].equals("-print")) {
-                printFlag = true;
-            } else if (args[i].equals("-textFile")) {
-                testFileFlag = true;
-                fileName = args[i + 1];
-                ++i;
-            } else if(args[i].startsWith("-")){
-                System.err.print("Invalid argument");
-                System.exit(1);
-            }
-            else {
-                argsToReturn[indexNumber] = args[i];
-                ++indexNumber;
-            }
-        }
-
-        return argsToReturn;
     }
 
     /**
