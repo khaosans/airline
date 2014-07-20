@@ -2,16 +2,20 @@ package edu.pdx.cs410J.khaosans;
 
 import edu.pdx.cs410J.AbstractFlight;
 
+import java.util.Date;
+
 /**
  * Created by sk on 7/6/14.
  */
-public class Flight extends AbstractFlight {
+public class Flight extends AbstractFlight implements Comparable {
     private int identificationNumber;
     private String source;
     private String departureTime;
     private String destination;
     private String arrivalTime;
 
+    private java.util.Date departureTime2;
+    private java.util.Date arrivaleTime2;
 
     /**
      * Constructor for the flight
@@ -74,5 +78,20 @@ public class Flight extends AbstractFlight {
     @Override
     public String getArrivalString() {
         return arrivalTime;
+    }
+
+    @Override
+    public Date getArrival() {
+        return super.getArrival();
+    }
+
+    @Override
+    public Date getDeparture() {
+        return super.getDeparture();
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return 0;
     }
 }
