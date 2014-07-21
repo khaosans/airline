@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: edu.pdx.cs410J.khaosans.Project1Test
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.114 sec
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.091 sec

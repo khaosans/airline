@@ -23,7 +23,9 @@ public class TextDumper implements edu.pdx.cs410J.AirlineDumper {
     @Override
     public void dump(AbstractAirline abstractAirline) {
         try {
-            if (fileName == null) {
+            File file = new File(fileName);
+            if (!file.exists()) {
+                createDirectory();
                 FileWriter fileWriter = new FileWriter(new File(fileName));
                 Airline newAirline = (Airline) abstractAirline;
                 fileWriter.write(newAirline.airlineDump() + "\n");
@@ -37,6 +39,15 @@ public class TextDumper implements edu.pdx.cs410J.AirlineDumper {
         } catch (IOException io) {
             System.err.print("Error writing to a file " + fileName);
         }
+    }
+
+    public void createDirectory(){
+        String [] split = fileName.split("/");
+        String filePath = "";
+        for(int i = 0; i<split.length-1;++i){
+            filePath+=split[i]+"/";
+        }
+        boolean buildDirectorySuccessful = (new File(filePath)).mkdirs();
     }
 }
 

@@ -2,6 +2,7 @@ package edu.pdx.cs410J.khaosans;
 
 import edu.pdx.cs410J.AbstractAirline;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,16 +17,17 @@ public class Project2 {
     private static Boolean readmeFlag = false;
     private static Boolean printFlag = false;
     private static Boolean textFileFlag = false;
-    private static String fileName = null;
+    private static String fileName;
     private static Flight flight;
     private static Airline airline;
+    private static File file = null;
 
     /**
      * Main method used to run everything
      *
      * @param args are the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Class c = AbstractAirline.class;  // Refer to one of Dave's classes so that we can be sure it is on the classpath
         if (args.length == 0) {
             System.err.println("Missing command line arguments");
@@ -35,7 +37,6 @@ public class Project2 {
             System.err.println("Nothing to print");
             System.exit(1);
         }
-
 
         String[] removedOptionsArguments = Arrays.copyOfRange(parseCL(args), 0, args.length - numberOfOptions);
 
@@ -52,16 +53,23 @@ public class Project2 {
             airline = new Airline(removedOptionsArguments[0]);
             airline.addFlight(flight);
         }
-        if (textFileFlag) {
-            try {
-                if (new TextParser(fileName).isSameAirline(airline.getName())) {
-                    new TextDumper(fileName).dump(airline);
-                } else {
-                    System.err.print("Not the same airline");
-                    System.exit(1);
+
+        if (textFileFlag && removedOptionsArguments.length ==8) {
+            file = new File(fileName);
+
+            if(file.exists()){
+                if( new TextParser(fileName).isSameAirline(removedOptionsArguments[0])) {
+                    TextDumper textDumper = new TextDumper(fileName);
+                    textDumper.dump(airline);
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
+                if(!new TextParser(fileName).isSameAirline(removedOptionsArguments[0])){
+                    System.err.print("Different airline name");
+                }
+
+            }else{
+                TextDumper textDumper = new TextDumper(fileName);
+                textDumper.dump(airline);
+
             }
         }
 
