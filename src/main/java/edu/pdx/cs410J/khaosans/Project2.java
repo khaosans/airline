@@ -61,14 +61,15 @@ public class Project2 {
                 if( new TextParser(fileName).isSameAirline(removedOptionsArguments[0])) {
                     TextDumper textDumper = new TextDumper(fileName);
                     textDumper.dump(airline);
-                }else{
-                    System.err.print("Not the same airline");
-                    System.exit(1);
+                }
+                if(!new TextParser(fileName).isSameAirline(removedOptionsArguments[0])){
+                    System.err.print("Different airline name");
                 }
 
             }else{
                 TextDumper textDumper = new TextDumper(fileName);
                 textDumper.dump(airline);
+
             }
         }
 

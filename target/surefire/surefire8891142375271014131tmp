@@ -1,0 +1,5 @@
+#surefire
+#Mon Jul 21 01:01:27 PDT 2014
+user.dir=/home/sk/advjava/airline
+localRepository=/home/sk/.m2/repository
+basedir=/home/sk/advjava/airline

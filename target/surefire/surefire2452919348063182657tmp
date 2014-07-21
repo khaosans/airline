@@ -1,0 +1,26 @@
+#surefire
+#Mon Jul 21 01:01:27 PDT 2014
+testClassesDirectory=/home/sk/advjava/airline/target/test-classes
+classPathUrl.4=/home/sk/.m2/repository/edu/pdx/cs410J/projects/Summer2014/projects-Summer2014.jar
+forkMode=once
+classPathUrl.3=/home/sk/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar
+classPathUrl.2=/home/sk/.m2/repository/junit/junit/4.11/junit-4.11.jar
+useManifestOnlyJar=true
+classPathUrl.1=/home/sk/advjava/airline/target/classes
+reportsDirectory=/home/sk/advjava/airline/target/surefire-reports
+classPathUrl.0=/home/sk/advjava/airline/target/test-classes
+providerConfiguration=org.apache.maven.surefire.junit4.JUnit4Provider
+testSuiteDefinitionTestSourceDirectory=/home/sk/advjava/airline/src/test/java
+surefireClassPathUrl.1=/home/sk/.m2/repository/org/apache/maven/surefire/surefire-api/2.10/surefire-api-2.10.jar
+surefireClassPathUrl.0=/home/sk/.m2/repository/org/apache/maven/surefire/surefire-junit4/2.10/surefire-junit4-2.10.jar
+runOrder=filesystem
+useSystemClassLoader=true
+excludes0=**/*$*
+isTrimStackTrace=true
+enableAssertions=true
+includes2=**/*TestCase.java
+failIfNoTests=false
+includes1=**/*Test.java
+includes0=**/Test*.java
+childDelegation=false
+classPathUrl.5=/home/sk/.m2/repository/edu/pdx/cs410J/projects/Summer2014/projects-Summer2014-tests.jar

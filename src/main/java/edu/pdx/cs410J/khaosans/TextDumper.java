@@ -48,10 +48,6 @@ public class TextDumper implements edu.pdx.cs410J.AirlineDumper {
             filePath+=split[i]+"/";
         }
         boolean buildDirectorySuccessful = (new File(filePath)).mkdirs();
-        if(!buildDirectorySuccessful){
-            System.err.print("Unable to create directory");
-            System.exit(1);
-        }
     }
 }
 

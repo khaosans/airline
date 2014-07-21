@@ -1,8 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pmd version="5.0.5" timestamp="2014-07-06T16:05:43.712">
+<pmd version="5.0.5" timestamp="2014-07-21T01:02:44.252">
+<file name="/home/sk/advjava/airline/src/main/java/edu/pdx/cs410J/khaosans/Flight.java">
+<violation beginline="17" endline="17" begincolumn="28" endcolumn="41" rule="UnusedPrivateField" ruleset="Unused Code" package="edu.pdx.cs410J.khaosans" class="Flight" variable="departureTime2" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.0.5/rules/java/unusedcode.html#UnusedPrivateField" priority="3">
+Avoid unused private fields such as 'departureTime2'.
+</violation>
+<violation beginline="17" endline="17" begincolumn="13" endcolumn="26" rule="UnnecessaryFullyQualifiedName" ruleset="Import Statements" package="edu.pdx.cs410J.khaosans" class="Flight" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.0.5/rules/java/imports.html#UnnecessaryFullyQualifiedName" priority="4">
+Unnecessary use of fully qualified name 'java.util.Date' due to existing import 'java.util.Date'
+</violation>
+<violation beginline="18" endline="18" begincolumn="28" endcolumn="40" rule="UnusedPrivateField" ruleset="Unused Code" package="edu.pdx.cs410J.khaosans" class="Flight" variable="arrivaleTime2" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.0.5/rules/java/unusedcode.html#UnusedPrivateField" priority="3">
+Avoid unused private fields such as 'arrivaleTime2'.
+</violation>
+<violation beginline="18" endline="18" begincolumn="13" endcolumn="26" rule="UnnecessaryFullyQualifiedName" ruleset="Import Statements" package="edu.pdx.cs410J.khaosans" class="Flight" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.0.5/rules/java/imports.html#UnnecessaryFullyQualifiedName" priority="4">
+Unnecessary use of fully qualified name 'java.util.Date' due to existing import 'java.util.Date'
+</violation>
+<violation beginline="84" endline="86" begincolumn="12" endcolumn="5" rule="UselessOverridingMethod" ruleset="Unnecessary" package="edu.pdx.cs410J.khaosans" class="Flight" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.0.5/rules/java/unnecessary.html#UselessOverridingMethod" priority="3">
+Overriding method merely calls super
+</violation>
+<violation beginline="89" endline="91" begincolumn="12" endcolumn="5" rule="UselessOverridingMethod" ruleset="Unnecessary" package="edu.pdx.cs410J.khaosans" class="Flight" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.0.5/rules/java/unnecessary.html#UselessOverridingMethod" priority="3">
+Overriding method merely calls super
+</violation>
+</file>
 <file name="/home/sk/advjava/airline/src/main/java/edu/pdx/cs410J/khaosans/Project1.java">
-<violation beginline="11" endline="11" begincolumn="11" endcolumn="11" rule="UnusedLocalVariable" ruleset="Unused Code" package="edu.pdx.cs410J.khaosans" class="Project1" method="main" variable="c" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.0.5/rules/java/unusedcode.html#UnusedLocalVariable" priority="3">
+<violation beginline="22" endline="22" begincolumn="15" endcolumn="15" rule="UnusedLocalVariable" ruleset="Unused Code" package="edu.pdx.cs410J.khaosans" class="Project1" method="main" variable="c" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.0.5/rules/java/unusedcode.html#UnusedLocalVariable" priority="3">
 Avoid unused local variables such as 'c'.
+</violation>
+<violation beginline="103" endline="103" begincolumn="18" endcolumn="21" rule="UnusedLocalVariable" ruleset="Unused Code" package="edu.pdx.cs410J.khaosans" class="Project1" method="dateFormatValidator" variable="date" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.0.5/rules/java/unusedcode.html#UnusedLocalVariable" priority="3">
+Avoid unused local variables such as 'date'.
+</violation>
+<violation beginline="145" endline="145" begincolumn="18" endcolumn="21" rule="UnusedLocalVariable" ruleset="Unused Code" package="edu.pdx.cs410J.khaosans" class="Project1" method="timeFormatValidator" variable="time" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.0.5/rules/java/unusedcode.html#UnusedLocalVariable" priority="3">
+Avoid unused local variables such as 'time'.
+</violation>
+</file>
+<file name="/home/sk/advjava/airline/src/main/java/edu/pdx/cs410J/khaosans/Project2.java">
+<violation beginline="31" endline="31" begincolumn="15" endcolumn="15" rule="UnusedLocalVariable" ruleset="Unused Code" package="edu.pdx.cs410J.khaosans" class="Project2" method="main" variable="c" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.0.5/rules/java/unusedcode.html#UnusedLocalVariable" priority="3">
+Avoid unused local variables such as 'c'.
+</violation>
+<violation beginline="159" endline="159" begincolumn="18" endcolumn="21" rule="UnusedLocalVariable" ruleset="Unused Code" package="edu.pdx.cs410J.khaosans" class="Project2" method="dateFormatValidator" variable="date" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.0.5/rules/java/unusedcode.html#UnusedLocalVariable" priority="3">
+Avoid unused local variables such as 'date'.
+</violation>
+<violation beginline="203" endline="203" begincolumn="18" endcolumn="21" rule="UnusedLocalVariable" ruleset="Unused Code" package="edu.pdx.cs410J.khaosans" class="Project2" method="timeFormatValidator" variable="time" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.0.5/rules/java/unusedcode.html#UnusedLocalVariable" priority="3">
+Avoid unused local variables such as 'time'.
+</violation>
+</file>
+<file name="/home/sk/advjava/airline/src/main/java/edu/pdx/cs410J/khaosans/Project3.java">
+<violation beginline="5" endline="5" begincolumn="1" endcolumn="34" rule="UnusedImports" ruleset="Import Statements" package="edu.pdx.cs410J.khaosans" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.0.5/rules/java/imports.html#UnusedImports" priority="4">
+Avoid unused imports such as 'java.text.SimpleDateFormat'
+</violation>
+<violation beginline="7" endline="7" begincolumn="1" endcolumn="24" rule="UnusedImports" ruleset="Import Statements" package="edu.pdx.cs410J.khaosans" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.0.5/rules/java/imports.html#UnusedImports" priority="4">
+Avoid unused imports such as 'java.util.Locale'
+</violation>
+<violation beginline="16" endline="16" begincolumn="20" endcolumn="20" rule="UnusedLocalVariable" ruleset="Unused Code" package="edu.pdx.cs410J.khaosans" class="Project3" method="main" variable="s" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.0.5/rules/java/unusedcode.html#UnusedLocalVariable" priority="3">
+Avoid unused local variables such as 's'.
+</violation>
+<violation beginline="17" endline="17" begincolumn="14" endcolumn="17" rule="UnusedLocalVariable" ruleset="Unused Code" package="edu.pdx.cs410J.khaosans" class="Project3" method="main" variable="date" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.0.5/rules/java/unusedcode.html#UnusedLocalVariable" priority="3">
+Avoid unused local variables such as 'date'.
+</violation>
+</file>
+<file name="/home/sk/advjava/airline/src/main/java/edu/pdx/cs410J/khaosans/TextDumper.java">
+<violation beginline="50" endline="50" begincolumn="45" endcolumn="62" rule="UselessParentheses" ruleset="Unnecessary" package="edu.pdx.cs410J.khaosans" class="TextDumper" method="createDirectory" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.0.5/rules/java/unnecessary.html#UselessParentheses" priority="4">
+Useless parentheses.
+</violation>
+</file>
+<file name="/home/sk/advjava/airline/src/main/java/edu/pdx/cs410J/khaosans/TextParser.java">
+<violation beginline="150" endline="150" begincolumn="18" endcolumn="21" rule="UnusedLocalVariable" ruleset="Unused Code" package="edu.pdx.cs410J.khaosans" class="TextParser" method="dateFormatValidator" variable="date" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.0.5/rules/java/unusedcode.html#UnusedLocalVariable" priority="3">
+Avoid unused local variables such as 'date'.
+</violation>
+<violation beginline="194" endline="194" begincolumn="18" endcolumn="21" rule="UnusedLocalVariable" ruleset="Unused Code" package="edu.pdx.cs410J.khaosans" class="TextParser" method="timeFormatValidator" variable="time" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.0.5/rules/java/unusedcode.html#UnusedLocalVariable" priority="3">
+Avoid unused local variables such as 'time'.
 </violation>
 </file>
 </pmd>

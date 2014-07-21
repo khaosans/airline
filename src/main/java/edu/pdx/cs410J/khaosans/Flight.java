@@ -2,6 +2,7 @@ package edu.pdx.cs410J.khaosans;
 
 import edu.pdx.cs410J.AbstractFlight;
 
+import java.text.DateFormat;
 import java.util.Date;
 
 /**
@@ -17,6 +18,9 @@ public class Flight extends AbstractFlight implements Comparable {
     private java.util.Date departureTime2;
     private java.util.Date arrivaleTime2;
 
+
+    private DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
+
     /**
      * Constructor for the flight
      *
@@ -28,6 +32,10 @@ public class Flight extends AbstractFlight implements Comparable {
         this.departureTime = args[3] + " " + args[4];
         this.destination = args[5];
         this.arrivalTime = args[6] + " " + args[7];
+
+        this.departureTime2 = parseDate(args[3], args[4]);
+        this.arrivaleTime2 = parseDate(args[6], args[7]);
+
     }
 
     /**
@@ -57,7 +65,7 @@ public class Flight extends AbstractFlight implements Comparable {
      */
     @Override
     public String getDepartureString() {
-        return departureTime;
+        return df.format(departureTime2);
     }
 
     /**
@@ -77,7 +85,7 @@ public class Flight extends AbstractFlight implements Comparable {
      */
     @Override
     public String getArrivalString() {
-        return arrivalTime;
+        return df.format(arrivaleTime2);
     }
 
     @Override
@@ -93,5 +101,14 @@ public class Flight extends AbstractFlight implements Comparable {
     @Override
     public int compareTo(Object o) {
         return 0;
+    }
+
+    public java.util.Date parseDate(String date, String time) {
+
+        String[] dateSplit = date.split("/");
+        String[] timeSplit = time.split(":");
+
+        return new Date(Integer.parseInt(dateSplit[2]), Integer.parseInt(dateSplit[0]), Integer.parseInt(dateSplit[1]),
+                Integer.parseInt(timeSplit[0]), Integer.parseInt(timeSplit[1]));
     }
 }
