@@ -8,7 +8,7 @@ import java.util.Date;
 /**
  * Created by sk on 7/6/14.
  */
-public class Flight extends AbstractFlight implements Comparable {
+public class Flight extends AbstractFlight implements Comparable<Flight> {
     private int identificationNumber;
     private String source;
     private String departureTime;
@@ -98,10 +98,6 @@ public class Flight extends AbstractFlight implements Comparable {
         return super.getDeparture();
     }
 
-    @Override
-    public int compareTo(Object o) {
-        return 0;
-    }
 
     public java.util.Date parseDate(String date, String time) {
 
@@ -110,5 +106,10 @@ public class Flight extends AbstractFlight implements Comparable {
 
         return new Date(Integer.parseInt(dateSplit[2]), Integer.parseInt(dateSplit[0]), Integer.parseInt(dateSplit[1]),
                 Integer.parseInt(timeSplit[0]), Integer.parseInt(timeSplit[1]));
+    }
+
+    @Override
+    public int compareTo(Flight o) {
+        return this.source.compareTo(o.getSource());
     }
 }
