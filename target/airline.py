@@ -82,15 +82,7 @@ def main():
 
     print '////////////////////////////////////////////Project 3//////////////////////////////////////////////'
 
-    print '*****  Test 1: Pretty file'
-    os.system('java -jar airline-1.0-SNAPSHOT.jar -print -pretty khaosans/prettyfile.txt -textFile khaosans/unsort.txt same 123 PDX 03/03/2014 12:00 AM ORD 05/04/2014 1:00 PM')
-    os.system('cat prettyfile.txt')
-    print '\n\n\n'
-
-    print '*****  Test 2: Print to standard out'
-    os.system('java -jar airline-1.0-SNAPSHOT.jar -print -pretty - -textFile khaosans/unsort.txt same 123 PDX 03/03/2014 12:00 AM ORD 05/04/2014 1:00 PM')
-    os.system('cat prettyfile.txt')
-    print '\n\n\n'
+    
 
 
 
