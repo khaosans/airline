@@ -4,6 +4,7 @@ import edu.pdx.cs410J.AbstractAirline;
 import edu.pdx.cs410J.AbstractFlight;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,59 +12,80 @@ import java.util.List;
  * Created by sk on 7/6/14.
  */
 public class Airline extends AbstractAirline {
-    String name;
-    List<AbstractFlight> flights;
+    private String name;
+    private List<Flight> flights;
 
     /**
-     * Constructor for the airline
-     *
-     * @param airlineName is the name of the airline.
+     * @param name :  the name of this airline
      */
-    public Airline(String airlineName) {
-        this.name = airlineName;
-        flights = new LinkedList<>();
+    public Airline(String name) {
+        this.name = name;
+        this.flights = new LinkedList<>();
     }
 
-    /**
-     * Getter for the name field
-     *
-     * @return a string of the name
-     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Airline airline = (Airline) o;
+
+        if (flights != null ? !flights.equals(airline.flights) : airline.flights != null) return false;
+        if (name != null ? !name.equals(airline.name) : airline.name != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (flights != null ? flights.hashCode() : 0);
+        return result;
+    }
+
     @Override
     public String getName() {
         return name;
     }
 
-    /**
-     * Method used to add flights to the airline.
-     *
-     * @param abstractFlight is the flight object
-     */
     @Override
-    public void addFlight(AbstractFlight abstractFlight) {
-        flights.add(abstractFlight);
+    public void addFlight(AbstractFlight flight) {
+        flights.add((Flight) flight);
+        Collections.sort(flights);
     }
 
-    /**
-     * Method used to get all the flights.
-     *
-     * @return flight list as a list.
-     */
     @Override
+
     public Collection getFlights() {
         return flights;
     }
 
-    public String airlineDump() {
+    public String flightDump() {
         String dump = "";
-        for (AbstractFlight flight : flights) {
+        for (Flight flight : flights) {
             dump += name + " " +
                     flight.getNumber() + " " +
                     flight.getSource() + " " +
                     flight.getDepartureString() + " " +
                     flight.getDestination() + " " +
-                    flight.getArrivalString();
+                    flight.getArrivalString() + "\n";
         }
         return dump;
     }
+
+    public String prettyDump() {
+
+        String dump = "============== Airline: "+name+" ==============\n";
+        for (Flight flight : flights) {
+            dump += "FlightNumber: " + flight.getNumber() + "\n" +
+                    "\t From Airport: " + flight.getSource() + "\n" +
+                    "\t Departure: " + flight.getDepartureString() + "\n" +
+                    "\t To Airport: " + flight.getDestination() + "\n" +
+                    "\t Arrival: " + flight.getArrivalString() + "\n" +
+                    "\t Duration of Flight(Minutes): " + flight.getDuration() + "\n";
+        }
+        return dump;
+    }
+
+
 }
