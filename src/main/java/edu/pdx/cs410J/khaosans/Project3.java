@@ -98,25 +98,26 @@ public class Project3 {
         }
 
         if (readmeFlag) {
-            System.out.println("Souriya Khaosanga CS410J Project 2\n" +
+            System.out.println("Souriya Khaosanga CS410J Project 3\n" +
                     "The purpose of this program is to be able to add airlines \n" +
                     "and flights to an existing database.  This tool also allows you to write and read\n" +
                     "from existing files.  This will vary depending on your input.  If a file exist,\n" +
-                    "it'll read it and validate it's the same airline and continue to write, otherwise it\n" +
-                    "should not write\n" +
-                    "usage: java edu.pdx.cs410J.<login-id>.Project1 [options] <args>\n" +
-                    "args are (in this order):\n" +
-                    "name The name of the airline\n" +
-                    "flightNumber The flight number\n" +
-                    "src Three-letter code of departure airport\n" +
-                    "departTime Departure date and time (24-hour time)\n" +
+                    "it'll read it and validate it's the same airline and continue to write\n" +
+                    "It also has a pretty print feature that can print to a screen or output to a file\n" +
+                    "usage: java edu.pdx.cs410J.<login-id>.Project3 [options] <args> \n" +
+                    "args are (in this order): \n" +
+                    "name The name of the airline \n" +
+                    "flightNumber The flight number\n " +
+                    "src Three-letter code of departure airport \n" +
+                    "departTime Departure date time am/pm\n" +
                     "dest Three-letter code of arrival airport\n" +
-                    "arriveTime Arrival date and time (24-hour time)\n" +
+                    "arriveTime Arrival date time am/pm\n" +
                     "options are (options may appear in any order):\n" +
+                    "-pretty file Pretty print the airline’s flights to\n" +
+                    "a text file or standard out (file -)\n" +
                     "-textFile file Where to read/write the airline info\n" +
                     "-print Prints a description of the new flight\n" +
-                    "-README Prints a README for this project and exits\n" +
-                    "Date and time should be in the format: mm/dd/yyyy hh:mm\n");
+                    "-README Prints a README for this project and exits\n");
             System.exit(1);
         }
 

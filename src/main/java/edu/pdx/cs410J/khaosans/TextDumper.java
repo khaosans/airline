@@ -41,6 +41,10 @@ public class TextDumper implements edu.pdx.cs410J.AirlineDumper {
         }
     }
 
+    /**
+     * method used to handle creation of directories
+     *
+     */
     public void createDirectory(){
         String [] split = fileName.split("/");
         String filePath = "";

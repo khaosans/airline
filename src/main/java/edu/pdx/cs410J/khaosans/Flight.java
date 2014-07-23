@@ -25,11 +25,12 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
     private DateFormat dfLong = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG);
 
     /**
-     * @param number
-     * @param source
-     * @param departure
-     * @param destination
-     * @param arrival
+     * Constructor for the flight
+     * @param number flight number
+     * @param source airport source
+     * @param departure departure time
+     * @param destination airpirt destination
+     * @param arrival arival time
      */
     public Flight(String number, String source, Date departure, String destination, Date arrival, long durationOfFlight) {
         this.flightNumber = number;
@@ -40,10 +41,19 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
         this.duration = durationOfFlight;
     }
 
+    /**
+     * Method for getting length of flight
+     * @return long value of the duration of the flight
+     */
     public long getDuration() {
         return duration;
     }
 
+    /**
+     * Used to check equality
+     * @param o object of flight
+     * @return boolean if the flights are equal
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -63,21 +73,22 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
         return true;
     }
 
+    /**
+     * Method for getting the length of flight
+     * @param arrival takes the arrival date
+     * @param departure takes the departure date
+     * @return long value for the duration of flight
+     */
     public static long getLengthOfFlight(Date arrival, Date departure) {
         return (arrival.getTime() - departure.getTime()) / 6000;
     }
 
-    @Override
-    public int hashCode() {
-        int result = flightNumber != null ? flightNumber.hashCode() : 0;
-        result = 31 * result + (source != null ? source.hashCode() : 0);
-        result = 31 * result + (destination != null ? destination.hashCode() : 0);
-        result = 31 * result + (departureTime != null ? departureTime.hashCode() : 0);
-        result = 31 * result + (arrivalTime != null ? arrivalTime.hashCode() : 0);
-        result = 31 * result + (df != null ? df.hashCode() : 0);
-        return result;
-    }
 
+    /**
+     * MEthod used for validating the command line
+     * @param args command line arguments
+     * @return Flight constructed from arguments
+     */
     public static Flight getFlightFromArgs(String[] args) {
         /*int i =0;
         for(String s:args){
@@ -91,14 +102,14 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
 
         String validSourceDate = dateFormatValidator(args[3]);
         String validSourceTime = timeFormatValidator(args[4]);
-        String sourceAmPM = args[5];
+        String sourceAmPM = amPmValidator(args[5]);
 
         validAirportName(args[6]);
         String validDest = airportValidator(args[6]);
 
         String validDestDate = dateFormatValidator(args[7]);
         String validDestTime = timeFormatValidator(args[8]);
-        String destAmPm = args[9];
+        String destAmPm = amPmValidator(args[9]);
 
 
         Date departureString = parseDate(validSourceDate, validSourceTime,sourceAmPM);
@@ -160,25 +171,33 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
         return df.format(arrivalTime);
     }
 
-    public String getArrivalStringLong() {
-        return dfLong.format(arrivalTime);
-    }
 
-    public String getDepartureStringLong() {
-        return dfLong.format(departureTime);
-    }
-
+    /**
+     * Getter for the arrival date
+     * @return arrvial date object
+     */
     @Override
     public Date getArrival() {
         return super.getArrival();
     }
 
+    /**
+     * Getter for the departure date
+     * @return the departue date object
+     */
     @Override
     public Date getDeparture() {
         return super.getDeparture();
     }
 
 
+    /**
+     * Method used to part the date from string
+     * @param date string of the date
+     * @param time a string of the time that is in the format of HH:mm.
+     * @param a am or pm value
+     * @return return a date object parsed from those 3 args
+     */
     public static Date parseDate(String date, String time, String a){
         Date date1 = null;
         SimpleDateFormat dateFormat = new SimpleDateFormat("mm/dd/yyyy hh:mm a");
@@ -338,6 +357,11 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
         return word.matches("[a-zA-Z]+");
     }
 
+    /**
+     * Used to compare object to eachother for sorting
+     * @param o a flight object used to compare the airport source then date
+     * @return integer value signaling the difference
+     */
     @Override
     public int compareTo(Flight o) {
         if (this.getSource().compareTo(o.getSource()) != 0) {
@@ -348,6 +372,10 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
         }
     }
 
+    /**
+     * Method used to validate airports
+     * @param name any 3 digit string for an airport
+     */
     public static void validAirportName(String name) {
         if (AirportNames.getName(name.toUpperCase()) == null) {
             System.err.println(name + " is Invalid");
@@ -355,11 +383,19 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
         }
     }
 
-    public String amPmValidator(String arg){
-        if (!arg.toUpperCase().equals("AM") || !arg.toUpperCase().equals("PM")){
+    /**
+     * method used to validate am or pm input
+     * @param arg input of am or pm string
+     * @return if valid returns the args of am or pm not case sensitive
+     */
+    public static String amPmValidator(String arg){
+        if (arg.toUpperCase().equals("AM") || arg.toUpperCase().equals("PM")){
+            return arg;
+        }else{
             System.err.println("Not valid AM or PM");
+            System.exit(1);
         }
-        return arg;
+        return null;
     }
 }
 

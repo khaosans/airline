@@ -33,11 +33,21 @@ public class TextParser implements edu.pdx.cs410J.AirlineParser {
         }
     }
 
+    /**
+     * Wrapper for getAirlineFromfile
+     * @return airline that was parsed
+     * @throws ParserException when bad things occur this throws
+     */
+
     @Override
     public AbstractAirline parse() throws ParserException {
         return getAirlineFromFile();
     }
 
+    /**
+     * Method used for doing the parsing work
+     * @return airline object if the file was valid
+     */
     public Airline getAirlineFromFile() {
         Airline airline = new Airline(airlineName);
         try {
@@ -66,6 +76,11 @@ public class TextParser implements edu.pdx.cs410J.AirlineParser {
         return airline;
     }
 
+    /**
+     * check the file to make sure it's the same airline
+     * @return boolean value for the airling being the same in the file
+     * @throws IOException when something bad happens
+     */
     public boolean isSameAirline() throws IOException {
         String toCheck = "";
 

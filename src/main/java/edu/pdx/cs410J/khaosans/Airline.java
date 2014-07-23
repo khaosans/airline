@@ -16,6 +16,7 @@ public class Airline extends AbstractAirline {
     private List<Flight> flights;
 
     /**
+     * Contructor for Airline
      * @param name :  the name of this airline
      */
     public Airline(String name) {
@@ -23,6 +24,11 @@ public class Airline extends AbstractAirline {
         this.flights = new LinkedList<>();
     }
 
+    /**
+     * Method used to compare equality
+     * @param o Pass in a flight object to chack for equality
+     * @return returns boolean if it's equal to the other object
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -36,17 +42,19 @@ public class Airline extends AbstractAirline {
         return true;
     }
 
-    @Override
-    public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + (flights != null ? flights.hashCode() : 0);
-        return result;
-    }
-
+    /**
+     * Getter for name field
+     * @return string for name field
+     */
     @Override
     public String getName() {
         return name;
     }
+
+    /**
+     * Method for adding flights to the airline
+     * @param flight object of flight to be added
+     */
 
     @Override
     public void addFlight(AbstractFlight flight) {
@@ -54,12 +62,19 @@ public class Airline extends AbstractAirline {
         Collections.sort(flights);
     }
 
+    /**
+     * Method for getting the flights
+     * @return collection or list of flights
+     */
     @Override
-
     public Collection getFlights() {
         return flights;
     }
 
+    /**
+     * Method used to dump all flights in list
+     * @return returns strings of the list of flights
+     */
     public String flightDump() {
         String dump = "";
         for (Flight flight : flights) {
@@ -73,6 +88,10 @@ public class Airline extends AbstractAirline {
         return dump;
     }
 
+    /**
+     * Method used for pretty print feature
+     * @return returns a nicely formatted string of flights
+     */
     public String prettyDump() {
 
         String dump = "============== Airline: "+name+" ==============\n";
