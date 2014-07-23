@@ -28,12 +28,12 @@ public class TextDumper implements edu.pdx.cs410J.AirlineDumper {
                 createDirectory();
                 FileWriter fileWriter = new FileWriter(new File(fileName));
                 Airline newAirline = (Airline) abstractAirline;
-                fileWriter.write(newAirline.airlineDump() + "\n");
+                fileWriter.write(newAirline.flightDump());
                 fileWriter.close();
             } else {
                 PrintWriter printWriter = new PrintWriter(new BufferedWriter(new FileWriter(fileName, true)));
                 Airline newAirline = (Airline) abstractAirline;
-                printWriter.write(newAirline.airlineDump() + "\n");
+                printWriter.write(newAirline.flightDump());
                 printWriter.close();
             }
         } catch (IOException io) {

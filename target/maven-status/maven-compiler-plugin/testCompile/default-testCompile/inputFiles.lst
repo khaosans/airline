@@ -1,2 +1,4 @@
-/home/sk/advjava/airline/src/test/java/edu/pdx/cs410J/khaosans/Project2Test.java
-/home/sk/advjava/airline/src/test/java/edu/pdx/cs410J/khaosans/Project1Test.java
+/home/sk/advjava/airline/src/test/java/edu/pdx/cs410J/khaosans/FlightTest.java
+/home/sk/advjava/airline/src/test/java/edu/pdx/cs410J/khaosans/TextParserTest.java
+/home/sk/advjava/airline/src/test/java/edu/pdx/cs410J/khaosans/TextDumperTest.java
+/home/sk/advjava/airline/src/test/java/edu/pdx/cs410J/khaosans/PrettyPrinterTest.java

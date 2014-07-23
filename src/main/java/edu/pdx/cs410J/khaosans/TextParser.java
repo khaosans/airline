@@ -7,16 +7,12 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Created by sk on 7/15/14.
  */
 public class TextParser implements edu.pdx.cs410J.AirlineParser {
     String fileName;
-    Airline airline;
     String airlineName;
 
     /**
@@ -24,8 +20,9 @@ public class TextParser implements edu.pdx.cs410J.AirlineParser {
      *
      * @param fileName the string of the file name
      */
-    public TextParser(String fileName) {
+    public TextParser(String fileName,String airlineName) {
         this.fileName = fileName;
+        this.airlineName = airlineName;
         try {
             BufferedReader br = new BufferedReader(new FileReader(fileName));
             br.close();
@@ -36,25 +33,40 @@ public class TextParser implements edu.pdx.cs410J.AirlineParser {
         }
     }
 
-    /**
-     * Method that is interface that must be implemented. Pretty much just calls the get airline method.
-     *
-     * @return an AbstractAirline that is the airline object
-     * @throws ParserException Exception that is thrown when it's unable to parse the file.
-     */
     @Override
     public AbstractAirline parse() throws ParserException {
         return getAirlineFromFile();
     }
 
-    /**
-     * Method used for validating the same airline and file airline.
-     *
-     * @param airlineName is the string name of the airline
-     * @return boolean value signaling whether the airline is the same as the file airline
-     * @throws IOException when there are issues with the input and output
-     */
-    public boolean isSameAirline(String airlineName) throws IOException {
+    public Airline getAirlineFromFile() {
+        Airline airline = new Airline(airlineName);
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName));
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                try {
+                    String[] args = line.split(" ");
+                    Flight flight = Flight.getFlightFromArgs(args);
+                    airline.addFlight(flight);
+                }catch (Exception e){
+                    System.err.println("Illegit input file!!! Check the file input format");
+                    System.exit(1);
+                }
+            }
+            bufferedReader.close();
+            if(!isSameAirline()){
+                System.err.println("Not the same Airline");
+                System.exit(1);
+            }
+
+        } catch (IOException e) {
+            System.err.print("File IO error");
+            System.exit(1);
+        }
+        return airline;
+    }
+
+    public boolean isSameAirline() throws IOException {
         String toCheck = "";
 
         BufferedReader br = new BufferedReader(new FileReader(fileName));
@@ -73,197 +85,5 @@ public class TextParser implements edu.pdx.cs410J.AirlineParser {
         }
         br.close();
         return true;
-    }
-
-    /**
-     * Method used to convert an airline file directly into an airline.
-     *
-     * @return Airline object that is used for adding flights to
-     */
-    public Airline getAirlineFromFile() {
-        try {
-            if (isSameAirline(airlineName)) {
-                airline = new Airline(airlineName);
-                BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName));
-                String line;
-                while ((line = bufferedReader.readLine()) != null) {
-                    String[] args = line.split(" ");
-                    inputValidator(args);
-                    Flight flight = new Flight(args);
-                    airline.addFlight(flight);
-                }
-                bufferedReader.close();
-            }
-        } catch (IOException e) {
-            System.err.print("File IO error");
-            System.exit(1);
-        }
-        return airline;
-    }
-
-    /**
-     * Method used to validate the file input.  Pretty much the same as the main argument but less the options.
-     *
-     * @param args
-     */
-    public void inputValidator(String[] args) {
-        try {
-            int i = 0;
-            for (String arg : args) {
-                System.out.println("[" + i + "]" + arg);
-                ++i;
-            }
-
-            if (args.length > 8) {
-                System.err.println("too many arguments");
-                System.exit(1);
-            }
-
-            if (args.length == 0) {
-                System.err.println("Missing command line arguments");
-                System.exit(1);
-            }
-
-            if (args.length >= 7) {
-                intParser(args[1]);
-                airportValidator(args[2]);
-                dateFormatValidator(args[3]);
-                timeFormatValidator(args[4]);
-                airportValidator(args[5]);
-                dateFormatValidator(args[6]);
-                timeFormatValidator(args[7]);
-            }
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.err.print("Invalid number of argument error");
-            System.exit(1);
-        }
-    }
-
-    /**
-     * Method used to validate the format of the input date
-     *
-     * @param arg is a string of the date as follows MM/DD/YYYY
-     */
-    public static void dateFormatValidator(String arg) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/DD/YYYY");
-        try {
-            Date date = dateFormat.parse(arg);
-            if (!isDateValid(arg)) {
-                throw new ParseException("", 1);
-            }
-        } catch (ParseException e) {
-            System.err.println(arg + " is an invalid date");
-            System.exit(1);
-        }
-    }
-
-    /**
-     * Method used to validate the individual numbers in the date.
-     *
-     * @param date a string that that contains the date month/day/year
-     * @return a boolean value of true the date numbers are valid
-     */
-    public static boolean isDateValid(String date) {
-        String[] values = date.split("/");
-        int mm = Integer.parseInt(values[0]);
-        int dd = Integer.parseInt(values[1]);
-        int yyyy = Integer.parseInt(values[2]);
-        if (values[0].length() > 2 || values[1].length() > 2 || values[2].length() > 4) {
-            return false;
-        } else if (values.length != 3) {
-            return false;
-        } else if (mm > 12 || mm < 1) {
-            return false;
-        } else if (dd < 1 || dd > 31) {
-            return false;
-        } else if (yyyy < 1000 || yyyy > 9999) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    /**
-     * Method used to validate the time format such that it is always HH:mm
-     *
-     * @param arg a string of time as above.
-     */
-    public static void timeFormatValidator(String arg) {
-        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
-        try {
-            Date time = timeFormat.parse(arg);
-            if (!isTimeValid(arg)) {
-                throw new ParseException("", 1);
-            }
-        } catch (ParseException e) {
-            System.err.println(arg + "Time Format is wrong");
-            System.exit(1);
-        } catch (NumberFormatException e) {
-            System.err.println(arg + " is not valid time");
-            System.exit(1);
-        }
-    }
-
-    /**
-     * Method used to validate that the integer values of the time are proper.
-     *
-     * @param time a string of the time that is in the format of HH:mm.
-     * @return a boolean value signalling that the values are within specification.
-     */
-    public static boolean isTimeValid(String time) {
-        String[] values = time.split(":");
-        int hh = Integer.parseInt(values[0]);
-        int mm = Integer.parseInt(values[1]);
-        if (values[0].length() > 2 || values[1].length() > 2) {
-            return false;
-        } else if (values.length != 2) {
-            return false;
-        } else if (hh > 24 || hh < 0) {
-            return false;
-        } else if (mm >= 60 || mm < 0) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    /**
-     * Method that is used to parse a string into an integer, that throws exception when the value is
-     * not an integer.
-     *
-     * @param arg is a string value that may or maynot be a number.
-     * @return the integer converted from the string args.
-     */
-    public static int intParser(String arg) {
-        try {
-            return Integer.parseInt(arg);
-        } catch (NumberFormatException e) {
-            System.err.println("invalid flight value");
-            System.exit(1);
-        }
-        return 0;
-    }
-
-    /**
-     * Method used to validate that a string only contains three letters and is a letter from the alphabet.
-     * If the string is not a valid 3 letters, it will signal an error and exit the program.
-     *
-     * @param arg a string value.
-     */
-    public static void airportValidator(String arg) {
-        if (!isAlpha(arg) || arg.length() != 3 || arg.length() != 3) {
-            System.err.println(arg + " invalid airport");
-            System.exit(1);
-        }
-    }
-
-    /**
-     * Method using a regular expression to see whether the input only contains letters from the alphabet.
-     *
-     * @param word
-     * @return a boolean value that signals whether the input is only letters.
-     */
-    public static boolean isAlpha(String word) {
-        return word.matches("[a-zA-Z]+");
     }
 }

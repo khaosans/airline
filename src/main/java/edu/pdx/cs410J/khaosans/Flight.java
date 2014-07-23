@@ -1,40 +1,112 @@
 package edu.pdx.cs410J.khaosans;
 
 import edu.pdx.cs410J.AbstractFlight;
+import edu.pdx.cs410J.AirportNames;
 
 import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
 
 /**
  * Created by sk on 7/6/14.
  */
 public class Flight extends AbstractFlight implements Comparable<Flight> {
-    private int identificationNumber;
+    private String flightNumber;
     private String source;
-    private String departureTime;
     private String destination;
-    private String arrivalTime;
+    private long duration;
 
-    private java.util.Date departureTime2;
-    private java.util.Date arrivaleTime2;
-
+    private Date departureTime;
+    private Date arrivalTime;
 
     private DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
+    private DateFormat dfLong = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG);
 
     /**
-     * Constructor for the flight
-     *
-     * @param args are the command line arguments
+     * @param number
+     * @param source
+     * @param departure
+     * @param destination
+     * @param arrival
      */
-    public Flight(String[] args) {
-        this.identificationNumber = Integer.parseInt(args[1]);
-        this.source = args[2];
-        this.departureTime = args[3] + " " + args[4];
-        this.destination = args[5];
-        this.arrivalTime = args[6] + " " + args[7];
+    public Flight(String number, String source, Date departure, String destination, Date arrival, long durationOfFlight) {
+        this.flightNumber = number;
+        this.source = source;
+        this.departureTime = departure;
+        this.destination = destination;
+        this.arrivalTime = arrival;
+        this.duration = durationOfFlight;
+    }
 
-        this.departureTime2 = parseDate(args[3], args[4]);
-        this.arrivaleTime2 = parseDate(args[6], args[7]);
+    public long getDuration() {
+        return duration;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Flight flight = (Flight) o;
+
+        if (arrivalTime != null ? !arrivalTime.equals(flight.arrivalTime) : flight.arrivalTime != null) return false;
+        if (departureTime != null ? !departureTime.equals(flight.departureTime) : flight.departureTime != null)
+            return false;
+        if (destination != null ? !destination.equals(flight.destination) : flight.destination != null) return false;
+        if (df != null ? !df.equals(flight.df) : flight.df != null) return false;
+        if (flightNumber != null ? !flightNumber.equals(flight.flightNumber) : flight.flightNumber != null)
+            return false;
+        if (source != null ? !source.equals(flight.source) : flight.source != null) return false;
+
+        return true;
+    }
+
+    public static long getLengthOfFlight(Date arrival, Date departure) {
+        return (arrival.getTime() - departure.getTime()) / 6000;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = flightNumber != null ? flightNumber.hashCode() : 0;
+        result = 31 * result + (source != null ? source.hashCode() : 0);
+        result = 31 * result + (destination != null ? destination.hashCode() : 0);
+        result = 31 * result + (departureTime != null ? departureTime.hashCode() : 0);
+        result = 31 * result + (arrivalTime != null ? arrivalTime.hashCode() : 0);
+        result = 31 * result + (df != null ? df.hashCode() : 0);
+        return result;
+    }
+
+    public static Flight getFlightFromArgs(String[] args) {
+        /*int i =0;
+        for(String s:args){
+            System.out.println(i+" "+s);
+            ++i;
+        }*/
+        int validFlight = intParser(args[1]);
+
+        validAirportName(args[2]);
+        String validSource = airportValidator(args[2]);
+
+        String validSourceDate = dateFormatValidator(args[3]);
+        String validSourceTime = timeFormatValidator(args[4]);
+        String sourceAmPM = args[5];
+
+        validAirportName(args[6]);
+        String validDest = airportValidator(args[6]);
+
+        String validDestDate = dateFormatValidator(args[7]);
+        String validDestTime = timeFormatValidator(args[8]);
+        String destAmPm = args[9];
+
+
+        Date departureString = parseDate(validSourceDate, validSourceTime,sourceAmPM);
+        Date arrivalString = parseDate(validDestDate, validDestTime,destAmPm);
+
+        long durationOfFlight = getLengthOfFlight(arrivalString, departureString);
+
+        return new Flight(String.valueOf(validFlight), validSource, departureString, validDest, arrivalString, durationOfFlight);
 
     }
 
@@ -45,7 +117,7 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
      */
     @Override
     public int getNumber() {
-        return identificationNumber;
+        return intParser(flightNumber);
     }
 
     /**
@@ -65,7 +137,7 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
      */
     @Override
     public String getDepartureString() {
-        return df.format(departureTime2);
+        return df.format(departureTime);
     }
 
     /**
@@ -85,7 +157,15 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
      */
     @Override
     public String getArrivalString() {
-        return df.format(arrivaleTime2);
+        return df.format(arrivalTime);
+    }
+
+    public String getArrivalStringLong() {
+        return dfLong.format(arrivalTime);
+    }
+
+    public String getDepartureStringLong() {
+        return dfLong.format(departureTime);
     }
 
     @Override
@@ -99,17 +179,188 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
     }
 
 
-    public java.util.Date parseDate(String date, String time) {
+    public static Date parseDate(String date, String time, String a){
+        Date date1 = null;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("mm/dd/yyyy hh:mm a");
+        String dateAndTime = date + " " + time + " " + a;
+        try{
+            date1 = dateFormat.parse(dateAndTime);
+        } catch (ParseException e) {
 
-        String[] dateSplit = date.split("/");
-        String[] timeSplit = time.split(":");
+            System.err.println("date and time are malformed " + dateAndTime);
+            System.exit(1);
+        }
+        return date1;
+    }
 
-        return new Date(Integer.parseInt(dateSplit[2]), Integer.parseInt(dateSplit[0]), Integer.parseInt(dateSplit[1]),
-                Integer.parseInt(timeSplit[0]), Integer.parseInt(timeSplit[1]));
+    /**
+     * Method used to validate the format of the input date
+     *
+     * @param arg is a string of the date as follows MM/DD/YYYY
+     */
+    public static String dateFormatValidator(String arg) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        try {
+            Date date = dateFormat.parse(arg);
+            if (!isDateValid(arg)) {
+                throw new ParseException("", 1);
+            }
+        } catch (ParseException e) {
+            System.err.println(arg + " is an invalid date");
+            System.exit(1);
+        }
+
+        if (!isDateValid(arg)) {
+            System.err.println(arg + " is an invalid date");
+            System.exit(1);
+        }
+
+        return arg;
+
+
+    }
+
+    /**
+     * Method used to validate the individual numbers in the date.
+     *
+     * @param date a string that that contains the date month/day/year
+     * @return a boolean value of true the date numbers are valid
+     */
+    public static boolean isDateValid(String date) {
+        String[] values = date.split("/");
+        int mm = Integer.parseInt(values[0]);
+        int dd = Integer.parseInt(values[1]);
+        int yyyy = Integer.parseInt(values[2]);
+        if (values[0].length() > 2 || values[1].length() > 2 || values[2].length() > 4) {
+            return false;
+        } else if (values.length != 3) {
+            return false;
+        } else if (mm > 12 || mm < 1) {
+            return false;
+        } else if (dd < 1 || dd > 31) {
+            return false;
+        } else if (yyyy < 0 || yyyy > 9999) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * Method used to validate the time formatt such that it is always HH:mm
+     *
+     * @param arg a string of time as above.
+     */
+    public static String timeFormatValidator(String arg) {
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+        try {
+            Date time = timeFormat.parse(arg);
+            if (!isTimeValid(arg)) {
+                throw new ParseException("", 1);
+            }
+        } catch (ParseException e) {
+            System.err.println(arg + " Time Format is wrong");
+            System.exit(1);
+        } catch (NumberFormatException e) {
+            System.err.println(arg + " is not valid time");
+            System.exit(1);
+        }
+
+        if (!isTimeValid(arg)) {
+            System.err.println(" invalid time format");
+            System.exit(1);
+        }
+        return arg;
+    }
+
+    /**
+     * Method used to validate that the integer values of the time are proper.
+     *
+     * @param time a string of the time that is in the format of HH:mm.
+     * @return a boolean value signalling that the values are within specification.
+     */
+    public static boolean isTimeValid(String time) {
+        String[] values = time.split(":");
+        int hh = Integer.parseInt(values[0]);
+        int mm = Integer.parseInt(values[1]);
+        if (values[0].length() > 2 || values[1].length() > 2) {
+            return false;
+        } else if (values.length != 2) {
+            return false;
+        } else if (hh > 12 || hh < 0) {
+            return false;
+        } else if (mm >= 60 || mm < 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
+    /**
+     * Method that is used to parse a string into an integer, that throws exception when the value is
+     * not an integer.
+     *
+     * @param arg is a string value that may or may not be a number.
+     * @return the integer converted from the string args.
+     */
+    public static int intParser(String arg) {
+        try {
+            return Integer.parseInt(arg);
+        } catch (NumberFormatException e) {
+            System.err.println("invalid flight value");
+            System.exit(1);
+        }
+        return 0;
+    }
+
+    /**
+     * Method used to validate that a string only contains three letters and is a letter from the alphabet.
+     * If the string is not a valid 3 letters, it will signal an error and exit the program.
+     *
+     * @param arg a string value.
+     */
+    public static String airportValidator(String arg) {
+        if (!isAlpha(arg) || arg.length() != 3 || arg.length() != 3) {
+            System.err.println(arg + " invalid airport");
+            System.exit(1);
+        }
+        return arg;
+    }
+
+    /**
+     * Method using a regular expression to see whether the input only contains letters from the alphabet.
+     *
+     * @param word
+     * @return a boolean value that signals whether the input is only letters.
+     */
+    public static boolean isAlpha(String word) {
+        return word.matches("[a-zA-Z]+");
     }
 
     @Override
     public int compareTo(Flight o) {
-        return this.source.compareTo(o.getSource());
+        if (this.getSource().compareTo(o.getSource()) != 0) {
+            return this.getSource().compareTo(o.getSource());
+        } else {
+            return this.departureTime.toString().compareTo(o.departureTime.toString());
+            //return this.getDepartureString().compareTo(o.getDepartureString());
+        }
+    }
+
+    public static void validAirportName(String name) {
+        if (AirportNames.getName(name.toUpperCase()) == null) {
+            System.err.println(name + " is Invalid");
+            System.exit(1);
+        }
+    }
+
+    public String amPmValidator(String arg){
+        if (!arg.toUpperCase().equals("AM") || !arg.toUpperCase().equals("PM")){
+            System.err.println("Not valid AM or PM");
+        }
+        return arg;
     }
 }
+
+

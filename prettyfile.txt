@@ -1,0 +1,13 @@
+============== Airline: same ==============
+FlightNumber: 800
+	 From Airport: MHT
+	 Departure: 1/8/14 8:00 AM
+	 To Airport: BTV
+	 Arrival: 1/8/14 8:00 PM
+	 Duration of Flight(Minutes): 7200
+FlightNumber: 800
+	 From Airport: MHT
+	 Departure: 1/8/14 8:00 AM
+	 To Airport: BTV
+	 Arrival: 1/8/14 8:00 PM
+	 Duration of Flight(Minutes): 7200
