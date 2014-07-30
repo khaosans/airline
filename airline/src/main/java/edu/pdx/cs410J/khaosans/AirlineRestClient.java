@@ -45,11 +45,11 @@ public class AirlineRestClient extends HttpRequestHelper {
     }
 
 
-    public Response addFlight(String name, String flightNumber, String src,
-                              String departTime, String dest, String arrivalTime) throws IOException {
+    public Response addFlight(String name, Flight flight) throws IOException {
 
-        return post(this.url, "name", name, "flightNumber", flightNumber, "departTime", departTime, "dest", dest,
-                "arrivalTime", arrivalTime);
+        return post(this.url, "name", name, "flightNumber", flight.getFlightNumber(),
+                "src",flight.getSource(), "departTime",flight.getDepartureString(),
+                "dest",flight.getDestination(),"arrivalTime", flight.getArrivalString());
     }
 
 

@@ -24,8 +24,29 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
     private DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
     private DateFormat dfLong = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG);
 
+    public String getFlightNumber() {
+        return flightNumber;
+    }
+
+    public Date getDepartureTime() {
+        return departureTime;
+    }
+
+    public Date getArrivalTime() {
+        return arrivalTime;
+    }
+
+    public DateFormat getDf() {
+        return df;
+    }
+
+    public DateFormat getDfLong() {
+        return dfLong;
+    }
+
     /**
      * Constructor for the flight
+
      * @param number flight number
      * @param source airport source
      * @param departure departure time

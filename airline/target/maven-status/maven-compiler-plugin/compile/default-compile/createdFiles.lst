@@ -1,4 +1,6 @@
-edu/pdx/cs410J/khaosans/AirlineRestClient.class
-edu/pdx/cs410J/khaosans/Messages.class
-edu/pdx/cs410J/khaosans/Project4.class
-edu/pdx/cs410J/khaosans/AirlineServlet.class
+edu\pdx\cs410J\khaosans\AirlineServlet.class
+edu\pdx\cs410J\khaosans\Messages.class
+edu\pdx\cs410J\khaosans\Airline.class
+edu\pdx\cs410J\khaosans\Project4.class
+edu\pdx\cs410J\khaosans\AirlineRestClient.class
+edu\pdx\cs410J\khaosans\Flight.class
