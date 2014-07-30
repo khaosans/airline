@@ -7,18 +7,33 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
-public class AirlineServlet extends HttpServlet
-{
+public class AirlineServlet extends HttpServlet {
     private final Map<String, String> data = new HashMap<String, String>();
 
-    @Override
-    protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
-    {
-        response.setContentType( "text/plain" );
+    private final List<Airline> airlineList = new LinkedList<>();
 
-        String key = getParameter( "key", request );
+    public static void main(String[] args) {
+    }
+
+    public int getIndex(String toMatch) {
+        for (int i = 0; i < airlineList.size(); ++i) {
+            if (toMatch == airlineList.get(i).getName()) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/plain");
+
+        String key = getParameter("key", request);
         if (key != null) {
             writeValue(key, response);
 
@@ -28,58 +43,56 @@ public class AirlineServlet extends HttpServlet
     }
 
     @Override
-    protected void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
-    {
-        response.setContentType( "text/plain" );
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/plain");
 
-        String key = getParameter( "key", request );
+        String key = getParameter("key", request);
         if (key == null) {
-            missingRequiredParameter( response, key );
+            missingRequiredParameter(response, key);
             return;
         }
 
-        String value = getParameter( "value", request );
-        if ( value == null) {
-            missingRequiredParameter( response, value );
+        String value = getParameter("value", request);
+        if (value == null) {
+            missingRequiredParameter(response, value);
             return;
         }
 
         this.data.put(key, value);
 
+
+
         PrintWriter pw = response.getWriter();
         pw.println(Messages.mappedKeyValue(key, value));
         pw.flush();
 
-        response.setStatus( HttpServletResponse.SC_OK);
+        response.setStatus(HttpServletResponse.SC_OK);
     }
 
-    private void missingRequiredParameter( HttpServletResponse response, String key )
-        throws IOException
-    {
+    private void missingRequiredParameter(HttpServletResponse response, String key)
+            throws IOException {
         PrintWriter pw = response.getWriter();
-        pw.println( Messages.missingRequiredParameter(key));
+        pw.println(Messages.missingRequiredParameter(key));
         pw.flush();
-        
-        response.setStatus( HttpServletResponse.SC_PRECONDITION_FAILED );
+
+        response.setStatus(HttpServletResponse.SC_PRECONDITION_FAILED);
     }
 
-    private void writeValue( String key, HttpServletResponse response ) throws IOException
-    {
+    private void writeValue(String key, HttpServletResponse response) throws IOException {
         String value = this.data.get(key);
 
         PrintWriter pw = response.getWriter();
-        pw.println(Messages.getMappingCount( value != null ? 1 : 0 ));
-        pw.println(Messages.formatKeyValuePair( key, value ));
+        pw.println(Messages.getMappingCount(value != null ? 1 : 0));
+        pw.println(Messages.formatKeyValuePair(key, value));
 
         pw.flush();
 
-        response.setStatus( HttpServletResponse.SC_OK );
+        response.setStatus(HttpServletResponse.SC_OK);
     }
 
-    private void writeAllMappings( HttpServletResponse response ) throws IOException
-    {
+    private void writeAllMappings(HttpServletResponse response) throws IOException {
         PrintWriter pw = response.getWriter();
-        pw.println(Messages.getMappingCount( data.size() ));
+        pw.println(Messages.getMappingCount(data.size()));
 
         for (Map.Entry<String, String> entry : this.data.entrySet()) {
             pw.println(Messages.formatKeyValuePair(entry.getKey(), entry.getValue()));
@@ -87,17 +100,17 @@ public class AirlineServlet extends HttpServlet
 
         pw.flush();
 
-        response.setStatus( HttpServletResponse.SC_OK );
+        response.setStatus(HttpServletResponse.SC_OK);
     }
 
     private String getParameter(String name, HttpServletRequest request) {
-      String value = request.getParameter(name);
-      if (value == null || "".equals(value)) {
-        return null;
+        String value = request.getParameter(name);
+        if (value == null || "".equals(value)) {
+            return null;
 
-      } else {
-        return value;
-      }
+        } else {
+            return value;
+        }
     }
 
 }
