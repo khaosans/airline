@@ -9,8 +9,7 @@ import java.io.IOException;
  * an example of how to make gets and posts to a URL.  You'll need to change it
  * to do something other than just send key/value pairs.
  */
-public class AirlineRestClient extends HttpRequestHelper
-{
+public class AirlineRestClient extends HttpRequestHelper {
     private static final String WEB_APP = "airline";
     private static final String SERVLET = "flights";
 
@@ -19,32 +18,39 @@ public class AirlineRestClient extends HttpRequestHelper
 
     /**
      * Creates a client to the airline REST service running on the given host and port
+     *
      * @param hostName The name of the host
-     * @param port The port
+     * @param port     The port
      */
-    public AirlineRestClient( String hostName, int port )
-    {
-        this.url = String.format( "http://%s:%d/%s/%s", hostName, port, WEB_APP, SERVLET );
+    public AirlineRestClient(String hostName, int port) {
+        this.url = String.format("http://%s:%d/%s/%s", hostName, port, WEB_APP, SERVLET);
     }
 
     /**
      * Returns all keys and values from the server
      */
-    public Response getAllKeysAndValues() throws IOException
-    {
-        return get(this.url );
+    public Response getAllKeysAndValues() throws IOException {
+        return get(this.url);
     }
 
     /**
      * Returns all values for the given key
      */
-    public Response getValues( String key ) throws IOException
-    {
+    public Response getValues(String key) throws IOException {
         return get(this.url, "key", key);
     }
 
-    public Response addKeyValuePair( String key, String value ) throws IOException
-    {
-        return post( this.url, "key", key, "value", value );
+    public Response addKeyValuePair(String key, String value) throws IOException {
+        return post(this.url, "key", key, "value", value);
     }
+
+
+    public Response addFlight(String name, String flightNumber, String src,
+                              String departTime, String dest, String arrivalTime) throws IOException {
+
+        return post(this.url, "name", name, "flightNumber", flightNumber, "departTime", departTime, "dest", dest,
+                "arrivalTime", arrivalTime);
+    }
+
+
 }
