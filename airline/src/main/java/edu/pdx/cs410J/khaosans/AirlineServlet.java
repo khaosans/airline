@@ -7,33 +7,19 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 public class AirlineServlet extends HttpServlet {
-    private final Map<String, String> data = new HashMap<String, String>();
-
-    private final List<Airline> airlineList = new LinkedList<>();
-
-    public static void main(String[] args) {
-    }
-
-    public int getIndex(String toMatch) {
-        for (int i = 0; i < airlineList.size(); ++i) {
-            if (toMatch == airlineList.get(i).getName()) {
-                return i;
-            }
-        }
-
-        return -1;
-    }
+    private final Map<String, Airline> data = new HashMap<String, Airline>();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/plain");
+        PrintWriter pw = response.getWriter();
+        pw.println(this.data.size());
+        pw.flush();
 
-        String key = getParameter("key", request);
+        String key = getParameter("name", request);
         if (key != null) {
             writeValue(key, response);
 
@@ -42,32 +28,75 @@ public class AirlineServlet extends HttpServlet {
         }
     }
 
+    //String name, String flightNumber, String src,
+    //String departTime, String dest, String arrivalTime
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/plain");
 
-        String key = getParameter("key", request);
-        if (key == null) {
-            missingRequiredParameter(response, key);
+        String name = getParameter("name", request);
+        if (name == null) {
+            missingRequiredParameter(response, name);
             return;
         }
 
-        String value = getParameter("value", request);
-        if (value == null) {
-            missingRequiredParameter(response, value);
+        Airline airline = new Airline(name);
+
+        String flightNumber = getParameter("flightNumber", request);
+        if (flightNumber == null) {
+            missingRequiredParameter(response, flightNumber);
             return;
         }
 
-        this.data.put(key, value);
+        String src = getParameter("src", request);
+        if (src == null) {
+            missingRequiredParameter(response, src);
+            return;
+        }
+
+        String departTime = getParameter("departTime", request);
+
+        String[] departArray = departTime.split(" ");
+        if (departTime == null) {
+            missingRequiredParameter(response, departTime);
+            return;
+        }
+
+        String dest = getParameter("dest", request);
+        if (dest == null) {
+            missingRequiredParameter(response, dest);
+            return;
+        }
+
+        String arrivalTime = getParameter("arrivalTime", request);
+        String[] arrivalArray = arrivalTime.split(" ");
+        if (arrivalTime == null) {
+            missingRequiredParameter(response, arrivalTime);
+            return;
+        }
+
+        String[] args = {name, flightNumber, src, departArray[0], departArray[1], departArray[2], dest,
+                arrivalArray[0], arrivalArray[1], arrivalArray[2]};
+        Flight flight = Flight.getFlightFromArgs(args);
 
 
+        if (this.data.get(name) == null) {
+            airline.addFlight(flight);
+            this.data.put(name, airline);
+        }
+        if(this.data.get(name)!=null){
+            Airline airline1 = new Airline(name);
+            airline1.addFlight(flight);
+            this.data.put(name,airline1);
+        }
 
         PrintWriter pw = response.getWriter();
-        pw.println(Messages.mappedKeyValue(key, value));
+        pw.println("this shit got added");
         pw.flush();
 
         response.setStatus(HttpServletResponse.SC_OK);
     }
+
 
     private void missingRequiredParameter(HttpServletResponse response, String key)
             throws IOException {
@@ -79,11 +108,11 @@ public class AirlineServlet extends HttpServlet {
     }
 
     private void writeValue(String key, HttpServletResponse response) throws IOException {
-        String value = this.data.get(key);
+        Airline airline = this.data.get(key);
 
         PrintWriter pw = response.getWriter();
-        pw.println(Messages.getMappingCount(value != null ? 1 : 0));
-        pw.println(Messages.formatKeyValuePair(key, value));
+        pw.println(Messages.getMappingCount(airline != null ? 1 : 0));
+        pw.println(Messages.formatKeyValuePair(key, airline.toString()));
 
         pw.flush();
 
@@ -94,8 +123,8 @@ public class AirlineServlet extends HttpServlet {
         PrintWriter pw = response.getWriter();
         pw.println(Messages.getMappingCount(data.size()));
 
-        for (Map.Entry<String, String> entry : this.data.entrySet()) {
-            pw.println(Messages.formatKeyValuePair(entry.getKey(), entry.getValue()));
+        for (Map.Entry<String, Airline> entry : this.data.entrySet()) {
+            pw.println(Messages.formatKeyValuePair(entry.getKey(), entry.getValue().getFlights().toString()));
         }
 
         pw.flush();
@@ -111,6 +140,10 @@ public class AirlineServlet extends HttpServlet {
         } else {
             return value;
         }
+    }
+
+    public String[] getStringFromCommandLine(String cmdline) {
+        return cmdline.split(" ");
     }
 
 }

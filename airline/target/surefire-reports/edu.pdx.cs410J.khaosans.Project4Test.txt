@@ -1,0 +1,28 @@
+-------------------------------------------------------------------------------
+Test set: edu.pdx.cs410J.khaosans.Project4Test
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 0.011 sec <<< FAILURE!
+test2EmptyServer(edu.pdx.cs410J.khaosans.Project4Test)  Time elapsed: 0.002 sec  <<< FAILURE!
+java.lang.AssertionError: Server contains 1 key/value pairs
+  lOKE -> UE
+
+Expected: a string containing "Server contains 0 key/value pairs"
+     but: was "Server contains 1 key/value pairs
+  lOKE -> UE
+"
+	at org.hamcrest.MatcherAssert.assertThat(MatcherAssert.java:20)
+	at edu.pdx.cs410J.khaosans.Project4Test.test2EmptyServer(Project4Test.java:32)
+
+test4AddValue(edu.pdx.cs410J.khaosans.Project4Test)  Time elapsed: 0.007 sec  <<< FAILURE!
+java.lang.AssertionError: Server contains 2 key/value pairs
+  KEY -> VALUE
+  lOKE -> UE
+
+Expected: a string containing "Server contains 1 key/value pairs"
+     but: was "Server contains 2 key/value pairs
+  KEY -> VALUE
+  lOKE -> UE
+"
+	at org.hamcrest.MatcherAssert.assertThat(MatcherAssert.java:20)
+	at edu.pdx.cs410J.khaosans.Project4Test.test4AddValue(Project4Test.java:62)
+
