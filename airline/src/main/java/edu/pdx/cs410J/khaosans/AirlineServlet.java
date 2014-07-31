@@ -10,26 +10,32 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AirlineServlet extends HttpServlet {
-    private final Map<String, Airline> data = new HashMap<String, Airline>();
+    private Map<String, Airline> data = new HashMap<String, Airline>();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/plain");
         PrintWriter pw = response.getWriter();
-        pw.println(this.data.size());
+        pw.println("Welcome to the Airline Server");
         pw.flush();
 
-        String key = getParameter("name", request);
-        if (key != null) {
-            writeValue(key, response);
+        String name = getParameter("name", request);
+        String src = getParameter("src", request);
+        String dest = getParameter("dest", request);
 
-        } else {
+        if (name == null && src == null && dest == null) {
             writeAllMappings(response);
+        } else if (name != null && src != null && dest != null) {
+            writeAllMatchedMappings(response, name, src, dest);
+        } else if (name != null && src == null && dest == null) {
+            writeAllMatchedAirlineMappings(response, name);
+        } else {
+            pw.println("Error, this isn't valid URL");
+            pw.flush();
         }
+
     }
 
-    //String name, String flightNumber, String src,
-    //String departTime, String dest, String arrivalTime
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/plain");
@@ -39,8 +45,6 @@ public class AirlineServlet extends HttpServlet {
             missingRequiredParameter(response, name);
             return;
         }
-
-        Airline airline = new Airline(name);
 
         String flightNumber = getParameter("flightNumber", request);
         if (flightNumber == null) {
@@ -80,18 +84,31 @@ public class AirlineServlet extends HttpServlet {
         Flight flight = Flight.getFlightFromArgs(args);
 
 
-        if (this.data.get(name) == null) {
-            airline.addFlight(flight);
-            this.data.put(name, airline);
-        }
-        if(this.data.get(name)!=null){
-            Airline airline1 = new Airline(name);
+        if (this.data.containsKey(name)) {
+            Airline airline1 = this.data.get(name);
+
+            for (Object flight1 : this.data.get(name).getFlights()) {
+                Flight flights2 = (Flight) flight1;
+                if (flights2.getFlightNumber().equals(flight.getFlightNumber())) {
+                    System.out.println("This Flight number exists");
+                    return;
+                }
+            }
             airline1.addFlight(flight);
-            this.data.put(name,airline1);
+            this.data.replace(name, airline1);
+            System.out.println("added flight to existing airline");
         }
 
+        if (!this.data.containsKey(name)) {
+            Airline airline = new Airline(name);
+            airline.addFlight(flight);
+            this.data.put(name, airline);
+            System.out.println("Created a new flight");
+        }
+
+
         PrintWriter pw = response.getWriter();
-        pw.println("this shit got added");
+        pw.println("added");
         pw.flush();
 
         response.setStatus(HttpServletResponse.SC_OK);
@@ -107,12 +124,40 @@ public class AirlineServlet extends HttpServlet {
         response.setStatus(HttpServletResponse.SC_PRECONDITION_FAILED);
     }
 
-    private void writeValue(String key, HttpServletResponse response) throws IOException {
-        Airline airline = this.data.get(key);
-
+    private void writeAllMatchedAirlineMappings(HttpServletResponse response, String name) throws IOException {
         PrintWriter pw = response.getWriter();
-        pw.println(Messages.getMappingCount(airline != null ? 1 : 0));
-        pw.println(Messages.formatKeyValuePair(key, airline.toString()));
+        pw.println(Messages.getMappingCount(data.size()));
+
+        for (Map.Entry<String, Airline> entry : this.data.entrySet()) {
+            if (entry.getKey().equals(name)) {
+                pw.println(entry.getKey());
+                for (Object flight : entry.getValue().getFlights()) {
+                    Flight flight1 = (Flight) flight;
+                    pw.println("\t" + flight.toString()+" Duration(minutes) "+flight1.getDuration());
+                }
+            }
+        }
+
+        pw.flush();
+
+        response.setStatus(HttpServletResponse.SC_OK);
+    }
+
+    private void writeAllMatchedMappings(HttpServletResponse response, String name, String src, String dest) throws IOException {
+        PrintWriter pw = response.getWriter();
+        pw.println(Messages.getMappingCount(data.size()));
+
+        for (Map.Entry<String, Airline> entry : this.data.entrySet()) {
+            if (entry.getKey().equals(name)) {
+                pw.println(entry.getKey());
+                for (Object flight : entry.getValue().getFlights()) {
+                    Flight flight1 = (Flight) flight;
+                    if (flight1.getSource().equals(src.toUpperCase()) && flight1.getDestination().equals(dest.toUpperCase())) {
+                        pw.println("\t" + flight.toString()+" Duration(minutes) "+flight1.getDuration());
+                    }
+                }
+            }
+        }
 
         pw.flush();
 
@@ -124,7 +169,11 @@ public class AirlineServlet extends HttpServlet {
         pw.println(Messages.getMappingCount(data.size()));
 
         for (Map.Entry<String, Airline> entry : this.data.entrySet()) {
-            pw.println(Messages.formatKeyValuePair(entry.getKey(), entry.getValue().getFlights().toString()));
+            pw.println(entry.getKey());
+            for (Object flight : entry.getValue().getFlights()) {
+                Flight flight1 = (Flight) flight;
+                pw.println("\t" + flight.toString()+" Duration(minutes) "+flight1.getDuration());
+            }
         }
 
         pw.flush();
@@ -142,8 +191,5 @@ public class AirlineServlet extends HttpServlet {
         }
     }
 
-    public String[] getStringFromCommandLine(String cmdline) {
-        return cmdline.split(" ");
-    }
 
 }
