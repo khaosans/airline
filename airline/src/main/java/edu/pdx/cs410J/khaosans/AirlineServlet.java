@@ -13,9 +13,10 @@ public class AirlineServlet extends HttpServlet {
     private Map<String, Airline> data = new HashMap<String, Airline>();
 
     /**
+     * Used for getting information from the servlet
      *
-     * @param request
-     * @param response
+     * @param request  From the client
+     * @param response gives to the client
      * @throws ServletException
      * @throws IOException
      */
@@ -44,9 +45,10 @@ public class AirlineServlet extends HttpServlet {
     }
 
     /**
+     * Method used for posting on the servlet
      *
-     * @param request
-     * @param response
+     * @param request  comes from the client
+     * @param response gives to the client
      * @throws ServletException
      * @throws IOException
      */
@@ -130,9 +132,10 @@ public class AirlineServlet extends HttpServlet {
 
 
     /**
+     * Method used to identify missing paramenters
      *
-     * @param response
-     * @param key
+     * @param response gives to the client
+     * @param key      to find this parameter
      * @throws IOException
      */
     private void missingRequiredParameter(HttpServletResponse response, String key)
@@ -145,13 +148,14 @@ public class AirlineServlet extends HttpServlet {
     }
 
     /**
+     * Finds all the matched airlines and flights
      *
-     * @param response
-     * @param name
+     * @param response gives to the client
+     * @param name     the name of the airline
      * @throws IOException
      */
     private void writeAllMatchedAirlineMappings(HttpServletResponse response, String name) throws IOException {
-        int matches =0;
+        int matches = 0;
         PrintWriter pw = response.getWriter();
         pw.println(Messages.getMappingCount(data.size()));
 
@@ -166,7 +170,7 @@ public class AirlineServlet extends HttpServlet {
             }
         }
 
-        if(matches ==0){
+        if (matches == 0) {
             pw.println("No airline matches exist for that search");
         }
         pw.flush();
@@ -175,11 +179,12 @@ public class AirlineServlet extends HttpServlet {
     }
 
     /**
+     * Write all the matching fights
      *
-     * @param response
-     * @param name
-     * @param src
-     * @param dest
+     * @param response gives to the client
+     * @param name     the name of the airline
+     * @param src      source of the airport
+     * @param dest     destination of the airport
      * @throws IOException
      */
     private void writeAllMatchedMappings(HttpServletResponse response, String name, String src, String dest) throws IOException {
@@ -209,8 +214,9 @@ public class AirlineServlet extends HttpServlet {
     }
 
     /**
+     * Method used to write the base url
      *
-     * @param response
+     * @param response gives to the client
      * @throws IOException
      */
     private void writeAllMappings(HttpServletResponse response) throws IOException {
@@ -231,9 +237,10 @@ public class AirlineServlet extends HttpServlet {
     }
 
     /**
+     * Method used to get the parameter from the request
      *
-     * @param name
-     * @param request
+     * @param name    name of the parameter
+     * @param request comes from the client
      * @return
      */
     private String getParameter(String name, HttpServletRequest request) {
@@ -245,6 +252,4 @@ public class AirlineServlet extends HttpServlet {
             return value;
         }
     }
-
-
 }

@@ -5,9 +5,7 @@ import edu.pdx.cs410J.web.HttpRequestHelper;
 import java.io.IOException;
 
 /**
- * A helper class for accessing the rest client.  Note that this class provides
- * an example of how to make gets and posts to a URL.  You'll need to change it
- * to do something other than just send key/value pairs.
+ * This class is how to interact with the servlet
  */
 public class AirlineRestClient extends HttpRequestHelper {
     private static final String WEB_APP = "airline";
@@ -27,19 +25,19 @@ public class AirlineRestClient extends HttpRequestHelper {
     }
 
     /**
-     * Returns all values for the given key
+     * Returns all values for the given airline name
      */
     public Response getAirline(String name) throws IOException {
         return get(this.url, "name", name);
     }
 
     /**
-     *
-     * @param name
-     * @param src
-     * @param dest
-     * @return
-     * @throws IOException
+     * Used to serch the servlet for flights for given parameters
+     * @param name of the airline
+     * @param src airport coming from
+     * @param dest airport going to
+     * @return Response  object
+     * @throws IOException when the url is no good
      */
     public Response getAirlineSrcDest(String name, String src, String dest) throws IOException {
         return get(this.url, "name", name, "src", src, "dest", dest);
@@ -47,9 +45,9 @@ public class AirlineRestClient extends HttpRequestHelper {
 
     /**
      *
-     * @param name
-     * @param flight
-     * @return
+     * @param name of the airline to add
+     * @param flight object that will be sent over the wire
+     * @return Response object
      * @throws IOException
      */
     public Response addFlight(String name, Flight flight) throws IOException {
@@ -58,6 +56,4 @@ public class AirlineRestClient extends HttpRequestHelper {
                 "src", flight.getSource(), "departTime", flight.getDepartureString(),
                 "dest", flight.getDestination(), "arrivalTime", flight.getArrivalString());
     }
-
-
 }

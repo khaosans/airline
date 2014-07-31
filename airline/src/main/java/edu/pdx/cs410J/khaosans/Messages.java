@@ -6,18 +6,18 @@ package edu.pdx.cs410J.khaosans;
  */
 public class Messages {
     /**
-     *
-     * @param count
-     * @return
+     * Used for formatting the number of airlines
+     * @param count the number of airlines
+     * @return String of the count of airlines
      */
     public static String getMappingCount(int count) {
         return String.format("Server contains %d Airlines", count);
     }
 
     /**
-     *
-     * @param key
-     * @return
+     * Used for identify bad parameters
+     * @param key the key which is being looked for
+     * @return the string that is missing
      */
     public static String missingRequiredParameter(String key) {
         return String.format("The required parameter \"%s\" is missing", key);
