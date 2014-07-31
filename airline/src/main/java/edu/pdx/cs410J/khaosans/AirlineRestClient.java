@@ -27,24 +27,31 @@ public class AirlineRestClient extends HttpRequestHelper {
     }
 
     /**
-     * Returns all keys and values from the server
-     */
-    public Response getAllKeysAndValues() throws IOException {
-        return get(this.url);
-    }
-
-    /**
      * Returns all values for the given key
      */
     public Response getAirline(String name) throws IOException {
         return get(this.url, "name", name);
     }
 
+    /**
+     *
+     * @param name
+     * @param src
+     * @param dest
+     * @return
+     * @throws IOException
+     */
     public Response getAirlineSrcDest(String name, String src, String dest) throws IOException {
-        return post(this.url, "name", name, "src", src, "dest", dest);
+        return get(this.url, "name", name, "src", src, "dest", dest);
     }
 
-
+    /**
+     *
+     * @param name
+     * @param flight
+     * @return
+     * @throws IOException
+     */
     public Response addFlight(String name, Flight flight) throws IOException {
 
         return post(this.url, "name", name, "flightNumber", flight.getFlightNumber(),

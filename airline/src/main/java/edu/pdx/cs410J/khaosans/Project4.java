@@ -3,6 +3,8 @@ package edu.pdx.cs410J.khaosans;
 import edu.pdx.cs410J.web.HttpRequestHelper;
 
 import java.io.IOException;
+import java.net.ConnectException;
+import java.net.UnknownHostException;
 import java.util.Arrays;
 
 /**
@@ -53,25 +55,40 @@ public class Project4 {
             System.exit(1);
         }
 
-        AirlineRestClient client = new AirlineRestClient(host, intParser(port));
+        try {
+            AirlineRestClient client = new AirlineRestClient(host, intParser(port));
 
-        if (removedOptionsArguments.length == 10 && !searchFlag) {
-            airline = new Airline(removedOptionsArguments[0]);
-            flight = Flight.getFlightFromArgs(removedOptionsArguments);
-            client.addFlight(airline.getName(), flight);
-        }
 
-        HttpRequestHelper.Response response;
+            if (removedOptionsArguments.length == 10 && !searchFlag) {
+                airline = new Airline(removedOptionsArguments[0]);
+                flight = Flight.getFlightFromArgs(removedOptionsArguments);
+                client.addFlight(airline.getName(), flight);
+                if (printFlag && flight != null) {
+                    System.out.println(removedOptionsArguments[0] + " " + flight.toString() + " was just added");
+                    System.exit(1);
+                }
+            }
 
-        if (removedOptionsArguments.length == 1 && searchFlag) {
-            response = client.getAirline(removedOptionsArguments[0]);
-            System.out.println(response.getContent());
-        }
 
-        if (removedOptionsArguments.length == 3 && searchFlag) {
-            response = client.getAirlineSrcDest(removedOptionsArguments[0], removedOptionsArguments[1],
-                    removedOptionsArguments[2]);
-            System.out.println(response.getContent());
+            if (removedOptionsArguments.length == 1 && searchFlag) {
+                HttpRequestHelper.Response response = client.getAirline(removedOptionsArguments[0]);
+                System.out.println(response.getContent());
+            }
+
+            if (removedOptionsArguments.length == 3 && searchFlag) {
+                HttpRequestHelper.Response response = client.getAirlineSrcDest(removedOptionsArguments[0], removedOptionsArguments[1],
+                        removedOptionsArguments[2]);
+                System.out.println(response.getContent());
+            }
+        } catch (UnknownHostException e) {
+            System.err.println("Unknown Host specified");
+            System.exit(2);
+        } catch (ConnectException e) {
+            System.err.println("Unknown port specified");
+            System.exit(2);
+        } catch (Exception e) {
+            System.err.println("Your arguments are not valid");
+            System.exit(2);
         }
 
         if (readmeFlag) {
@@ -98,18 +115,24 @@ public class Project4 {
             System.exit(1);
         }
 
-        if (removedOptionsArguments.length > 10 && removedOptionsArguments.length != 3 &&
-                removedOptionsArguments.length != 1)
+        if (searchFlag && removedOptionsArguments.length > 3) {
+            System.err.println("Invalid number of search parameters");
+            System.exit(1);
+        }
 
-        {
+        if (searchFlag && removedOptionsArguments.length == 2) {
+            System.err.println("Invalid number of search parameters");
+            System.exit(1);
+        }
+
+        if (removedOptionsArguments.length > 10 && removedOptionsArguments.length != 3 &&
+                removedOptionsArguments.length != 1) {
             System.err.println("too many arguments");
             System.exit(1);
         }
 
         if (removedOptionsArguments.length < 10 && removedOptionsArguments.length != 3 &&
-                removedOptionsArguments.length != 1)
-
-        {
+                removedOptionsArguments.length != 1) {
             System.err.println("too few arguments");
             System.exit(1);
         }
